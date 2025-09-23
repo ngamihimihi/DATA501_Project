@@ -1,0 +1,64 @@
+---
+title: "Introduction to the EM Algorithm"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to the EM Algorithm}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(DATA501Package)
+```
+
+Step 1: Create an em_model object.
+You start by passing your incomplete data into the em_model() constructor.  
+
+```{r}
+data <- matrix(c(
+  1.1, NA, 2.3,
+  2.0, 3.4, NA,
+  NA, 2.5, 3.6,
+  1.9, 2.8, 3.1
+), ncol = 3, byrow = TRUE)
+
+model <- em_model(data)
+```
+
+Step 2: Step 2: Run the EM Algorithm. 
+```{r}
+model <- run_em_algorithm(model, max_iter = 50, tolerance = 1e-5)
+```
+  
+You now have:
+	•	Imputed data in model$imputed. 
+	•	Final estimates in model$parameters. 
+	•	Log-likelihood trace in model$loglik_history. 
+
+Step 3:Inspect Results. 
+```{r}
+# Check the imputed matrix
+model$imputed
+# View convergence
+plot(model$loglik_history, type = "l", main = "Log-Likelihood", ylab = "LogLik")
+
+```
+
+Step 4: Understand model structure.  
+
+```{r}
+str(model)
+```
+
+See Also. 
+	•	e_step_general_impute() to impute manually. 
+	•	initialize_parameters() for basic stats before EM. 
+	•	log_likelihood_mvnorm() to compute final likelihood. 
+	

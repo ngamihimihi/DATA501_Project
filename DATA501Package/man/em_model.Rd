@@ -4,18 +4,23 @@
 \alias{em_model}
 \title{Constructor for em_model object}
 \usage{
-em_model(data, method = "EM", early_stop = list())
+em_model(data, method = "EM", distribution = "mvnorm", early_stop = list())
 }
 \arguments{
-\item{data}{Input data matrix with missing values}
+\item{data}{A numeric matrix with missing values (NAs).}
 
-\item{method}{"EM" or "MCEM"}
+\item{method}{A character string, either "EM" or "MCEM", this will determine which method to apply}
 
-\item{early_stop}{List of early stopping criteria}
+\item{early_stop}{A list to store early stopping information.}
 }
 \value{
-An object of class em_model
+An object of class \code{em_model}.
 }
 \description{
-Constructor for em_model object
+Initializes an EM model structure with input data and placeholders
+for algorithm output.
+}
+\examples{
+data <- matrix(c(1, NA, 3, 4), ncol = 2)
+model <- em_model(data)
 }

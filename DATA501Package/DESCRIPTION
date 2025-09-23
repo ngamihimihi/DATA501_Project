@@ -15,3 +15,7 @@ LinkingTo:
 Imports: 
     Rcpp,
     RcppArmadillo
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

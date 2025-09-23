@@ -40,12 +40,28 @@ Sigma <- matrix(c(
   0.3, 0.4, 1.0, 0.2,
   0.2, 0.3, 0.2, 1.0
 ), nrow = 4)
+#test model
+model <- em_model(data,distribution = "nvnorm")
+model_em<-run_em_algorithm(model)
+model_em$loglik_history
+model_em$parameter_history
+plot(model_em$loglik_history)
+model_em$method
 
-# Run the general E-step imputer
-imputed_data <- DATA501Package::e_step_general_impute(data, mu, Sigma)
-print(imputed_data)
 
-update_parameter<-DATA501Package::m_step_estimate(imputed_data)
-print(update_parameter$mu)
-print(update_parameter$Sigma)
-log_likelihood_mvnorm(imputed_data, mu, Sigma)
+
+##debug
+params <- list(
+  mu = c(5.4, 4.27, 2.17, 2.47),
+  Sigma = matrix(1, 4, 4)  # Just for testing – use a real covariance matrix if available
+)
+
+data <- matrix(rnorm(40), ncol = 4)
+
+log_likelihood_nvnorm(data, params)
+#generate vignette
+usethis::use_vignette("Introduction to the EM Algorithm")
+devtools::build_vignettes()
+browseVignettes("Introduction to the EM Algorithm")
+
+vignette("em-algorithm-intro", package = "DATA501AGM2")

@@ -1,10 +1,9 @@
-#' Initialize parameters from incomplete data
+#' Dispatcher to initialize parameters based on distribution
 #'
-#' @param data A numeric matrix with NAs
-#' @return A list with estimated `mu` and `Sigma`
-#' @export
-initialize_parameters <- function(data) {
-  mu <- colMeans(data, na.rm = TRUE)
-  Sigma <- cov(data, use = "pairwise.complete.obs")  # Can later switch to EM-based if needed
-  return(list(mu = mu, Sigma = Sigma))
+#' @param data Matrix with missing values
+#' @param dist Character string: "mvnorm", "poisson", "mixture", etc.
+#' @return A list of initial parameters (depends on distribution)
+initialize_parameters <- function(data, dist) {
+  init_fn <- get(paste0("initialize_parameters_", dist))
+  init_fn(data)
 }

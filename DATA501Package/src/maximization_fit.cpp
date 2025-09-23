@@ -1,19 +1,8 @@
 #include <RcppArmadillo.h>
 using namespace Rcpp;
 using namespace arma;
-
-// This is a simple example of exporting a C++ function to R. You can
-// source this function into an R session using the Rcpp::sourceCpp
-// function (or via the Source button on the editor toolbar). Learn
-// more about Rcpp at:
-//
-//   http://www.rcpp.org/
-//   http://adv-r.had.co.nz/Rcpp.html
-//   http://gallery.rcpp.org/
-//
-
 // [[Rcpp::export]]
-Rcpp::List m_step_estimate(const arma::mat& imputed_data) {
+Rcpp::List m_step_nvnorm(const arma::mat& imputed_data) {
   int n = imputed_data.n_rows;
 
   // Compute new mean
@@ -22,12 +11,18 @@ Rcpp::List m_step_estimate(const arma::mat& imputed_data) {
   // Center the data
   arma::mat centered = imputed_data.each_row() - mu_new;
 
-  // Compute covariance
+  // Compute sample covariance
   arma::mat Sigma_new = (centered.t() * centered) / n;
 
+  // Force symmetry: numerical safety
+  Sigma_new = 0.5 * (Sigma_new + Sigma_new.t());
+
+  // Add small ridge (regularization) to make Sigma PD
+  double lambda = 1e-6;
+  Sigma_new += lambda * arma::eye(Sigma_new.n_rows, Sigma_new.n_cols);
+
   return Rcpp::List::create(
-    Rcpp::Named("mu") = mu_new.t(),  // return as column vector
-    Rcpp::Named("Sigma") = Sigma_new
+    Rcpp::Named("mu") = mu_new.t(),  // column vector
+    Rcpp::Named("sigma") = Sigma_new
   );
 }
-

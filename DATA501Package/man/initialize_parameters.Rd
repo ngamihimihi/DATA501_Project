@@ -2,16 +2,18 @@
 % Please edit documentation in R/initialize_parameters.R
 \name{initialize_parameters}
 \alias{initialize_parameters}
-\title{Initialize parameters from incomplete data}
+\title{Dispatcher to initialize parameters based on distribution}
 \usage{
-initialize_parameters(data)
+initialize_parameters(data, dist)
 }
 \arguments{
-\item{data}{A numeric matrix with NAs}
+\item{data}{Matrix with missing values}
+
+\item{dist}{Character string: "mvnorm", "poisson", "mixture", etc.}
 }
 \value{
-A list with estimated \code{mu} and \code{Sigma}
+A list of initial parameters (depends on distribution)
 }
 \description{
-Initialize parameters from incomplete data
+Dispatcher to initialize parameters based on distribution
 }

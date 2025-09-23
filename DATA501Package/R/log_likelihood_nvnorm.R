@@ -8,6 +8,12 @@
 #'
 #' @return A single numeric value: the log-likelihood.
 #' @export
-log_likelihood_mvnorm <- function(data, mu, Sigma) {
-  .Call(`_DATA501Package_log_likelihood_mvnorm`, data, mu, Sigma)
+log_likelihood_nvnorm <- function(data, params) {
+  mu <- params$mu
+  Sigma <- params$sigma
+
+  cat("DEBUG: eigenvalues of Sigma:\n")
+  print(eigen(Sigma, only.values = TRUE)$values)
+
+  .Call(`_DATA501Package_log_likelihood_nvnorm`, data, mu, Sigma)
 }

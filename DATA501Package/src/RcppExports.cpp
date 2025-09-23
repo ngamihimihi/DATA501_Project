@@ -11,48 +11,48 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// e_step_general_impute
-arma::mat e_step_general_impute(const arma::mat& data, const arma::vec& mu, const arma::mat& Sigma);
-RcppExport SEXP _DATA501Package_e_step_general_impute(SEXP dataSEXP, SEXP muSEXP, SEXP SigmaSEXP) {
+// e_step_nvnorm
+arma::mat e_step_nvnorm(const arma::mat& data, const arma::vec& mu, const arma::mat& Sigma);
+RcppExport SEXP _DATA501Package_e_step_nvnorm(SEXP dataSEXP, SEXP muSEXP, SEXP SigmaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat& >::type data(dataSEXP);
     Rcpp::traits::input_parameter< const arma::vec& >::type mu(muSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type Sigma(SigmaSEXP);
-    rcpp_result_gen = Rcpp::wrap(e_step_general_impute(data, mu, Sigma));
+    rcpp_result_gen = Rcpp::wrap(e_step_nvnorm(data, mu, Sigma));
     return rcpp_result_gen;
 END_RCPP
 }
-// log_likelihood_mvnorm
-double log_likelihood_mvnorm(const arma::mat& data, const arma::vec& mu, const arma::mat& Sigma);
-RcppExport SEXP _DATA501Package_log_likelihood_mvnorm(SEXP dataSEXP, SEXP muSEXP, SEXP SigmaSEXP) {
+// log_likelihood_nvnorm
+double log_likelihood_nvnorm(const arma::mat& data, const arma::vec& mu, const arma::mat& Sigma);
+RcppExport SEXP _DATA501Package_log_likelihood_nvnorm(SEXP dataSEXP, SEXP muSEXP, SEXP SigmaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat& >::type data(dataSEXP);
     Rcpp::traits::input_parameter< const arma::vec& >::type mu(muSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type Sigma(SigmaSEXP);
-    rcpp_result_gen = Rcpp::wrap(log_likelihood_mvnorm(data, mu, Sigma));
+    rcpp_result_gen = Rcpp::wrap(log_likelihood_nvnorm(data, mu, Sigma));
     return rcpp_result_gen;
 END_RCPP
 }
-// m_step_estimate
-Rcpp::List m_step_estimate(const arma::mat& imputed_data);
-RcppExport SEXP _DATA501Package_m_step_estimate(SEXP imputed_dataSEXP) {
+// m_step_nvnorm
+Rcpp::List m_step_nvnorm(const arma::mat& imputed_data);
+RcppExport SEXP _DATA501Package_m_step_nvnorm(SEXP imputed_dataSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const arma::mat& >::type imputed_data(imputed_dataSEXP);
-    rcpp_result_gen = Rcpp::wrap(m_step_estimate(imputed_data));
+    rcpp_result_gen = Rcpp::wrap(m_step_nvnorm(imputed_data));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_DATA501Package_e_step_general_impute", (DL_FUNC) &_DATA501Package_e_step_general_impute, 3},
-    {"_DATA501Package_log_likelihood_mvnorm", (DL_FUNC) &_DATA501Package_log_likelihood_mvnorm, 3},
-    {"_DATA501Package_m_step_estimate", (DL_FUNC) &_DATA501Package_m_step_estimate, 1},
+    {"_DATA501Package_e_step_nvnorm", (DL_FUNC) &_DATA501Package_e_step_nvnorm, 3},
+    {"_DATA501Package_log_likelihood_nvnorm", (DL_FUNC) &_DATA501Package_log_likelihood_nvnorm, 3},
+    {"_DATA501Package_m_step_nvnorm", (DL_FUNC) &_DATA501Package_m_step_nvnorm, 1},
     {NULL, NULL, 0}
 };
 
