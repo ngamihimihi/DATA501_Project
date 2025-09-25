@@ -2,28 +2,39 @@
 % Please edit documentation in R/m_step_nvnorm.R
 \name{m_step_nvnorm}
 \alias{m_step_nvnorm}
-\title{M-step Estimate of Mean and Covariance}
+\title{M-step for Multivariate Normal Model}
 \usage{
 m_step_nvnorm(imputed_data)
 }
 \arguments{
-\item{imputed_data}{A numeric matrix with no missing values.}
+\item{imputed_data}{A numeric matrix where missing values have been filled in,
+typically using conditional expectations from the E-step.}
 }
 \value{
-A list with elements:
+A named list containing:
 \describe{
 \item{mu}{A numeric vector of column means.}
-\item{Sigma}{A numeric covariance matrix.}
+\item{sigma}{A numeric covariance matrix (assumed positive definite).}
 }
 }
 \description{
-Computes the M-step in the EM algorithm by estimating the mean vector and
-covariance matrix from a fully observed (imputed) dataset.
+Performs the M-step of the EM algorithm for a multivariate normal distribution,
+given a matrix with missing values imputed (i.e., the completed dataset).
 }
 \details{
-This function is typically called after the E-step has filled in
-missing values, and is used to update the parameters of the multivariate normal model.
+This function calls a C++ routine (\code{_DATA501Package_m_step_nvnorm})
+to compute the MLEs for the multivariate normal parameters \eqn{(\mu, \Sigma)}.
+It is designed to work with both outputs of \code{\link{e_step_nvnorm}} or
+\code{\link{e_step_nvnorm_mc}} during the EM algorithm.
+}
+\examples{
+data <- matrix(c(1, NA, 3, 4), ncol = 2)
+mu <- colMeans(data, na.rm = TRUE)
+sigma <- diag(2)
+params <- list(mu = mu, sigma = sigma)
+imputed <- e_step_nvnorm(data, params)
+m_step_nvnorm(imputed)
 }
 \seealso{
-\code{\link{run_em_algorithm}}, \code{\link{e_step_general_impute}}, \code{\link{initialize_parameters}}
+\code{\link{e_step_nvnorm}}, \code{\link{em_engine}}, \code{\link{log_likelihood_nvnorm}}
 }

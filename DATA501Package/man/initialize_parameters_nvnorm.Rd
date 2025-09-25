@@ -2,34 +2,40 @@
 % Please edit documentation in R/initialize_parameters_nvnorm.R
 \name{initialize_parameters_nvnorm}
 \alias{initialize_parameters_nvnorm}
-\title{Log-Likelihood of Multivariate Normal Distribution}
+\title{Initialize Parameters for Multivariate Normal Model}
 \usage{
 initialize_parameters_nvnorm(data)
 }
 \arguments{
-\item{data}{A numeric matrix with no missing values. Each row is an observation.}
-
-\item{mu}{A numeric vector of means (same length as the number of columns in \code{data}).}
-
-\item{Sigma}{A numeric covariance matrix (must be square and match dimensions of \code{mu} and \code{data}).}
+\item{data}{A numeric matrix with missing values (NAs).}
 }
 \value{
-A single numeric value: the total log-likelihood of the data under the MVN model.
+A list with two elements:
+\describe{
+\item{mu}{A numeric vector of column means (ignoring NAs).}
+\item{sigma}{A numeric covariance matrix, adjusted to be symmetric and positive definite.}
+}
 }
 \description{
-Computes the total log-likelihood of a fully observed numeric dataset under
-a multivariate normal (MVN) distribution with specified mean vector and covariance matrix.
+Estimates initial mean and covariance parameters for a multivariate normal
+distribution, handling missing data via pairwise-complete covariance and
+applying jitter if needed to ensure positive definiteness.
 }
 \details{
-This function is typically called within the EM algorithm after missing values
-have been imputed. It assumes that the covariance matrix is positive definite.
+The function computes column means using \code{colMeans(..., na.rm = TRUE)}
+and uses \code{cov(..., use = "pairwise.complete.obs")} to estimate the covariance matrix.
+It then ensures that the covariance matrix is symmetric, and applies a small jitter to
+the diagonal if any eigenvalues are close to zero or negative, to ensure positive definiteness.
+
+A warning message is shown if jittering is applied. If the matrix remains not positive definite
+after jittering, the function stops with an error.
 }
 \examples{
-data <- matrix(c(1.2, 2.3, 2.0, 3.1, 1.8, 2.8), ncol = 2, byrow = TRUE)
-mu <- colMeans(data)
-Sigma <- cov(data)
-initialize_parameters_nvnorm(data, mu, Sigma)
+data <- matrix(c(1, 2, NA, 4, 5, 6, 7, NA, 9), ncol = 3)
+params <- initialize_parameters_nvnorm(data)
+params$mu
+params$sigma
 }
 \seealso{
-\code{\link{run_em_algorithm}}, \code{\link{e_step_general_impute}}, \code{\link[stats]{mvtnorm}}
+\code{\link{run_em_algorithm}}, \code{\link{em_model}}
 }

@@ -2,25 +2,29 @@
 % Please edit documentation in R/em_model_class.R
 \name{em_model}
 \alias{em_model}
-\title{Constructor for em_model object}
+\title{Constructor for em_model Object}
 \usage{
 em_model(data, method = "EM", distribution = "mvnorm", early_stop = list())
 }
 \arguments{
-\item{data}{A numeric matrix with missing values (NAs).}
+\item{data}{A numeric matrix with missing values (NAs). Must not be entirely missing.}
 
-\item{method}{A character string, either "EM" or "MCEM", this will determine which method to apply}
+\item{method}{A character string, either \code{"EM"} or \code{"MCEM"}, which determines the algorithm to use.}
 
-\item{early_stop}{A list to store early stopping information.}
+\item{distribution}{A character string indicating the assumed distribution family. Currently only \code{"mvnorm"} is supported.}
+
+\item{early_stop}{A list to store convergence status and iteration count. Defaults to an empty list.}
 }
 \value{
-An object of class \code{em_model}.
+An object of class \code{em_model} with initialized slots for parameters, history, and output.
 }
 \description{
 Initializes an EM model structure with input data and placeholders
-for algorithm output.
+for algorithm output. Used as the primary object to pass through
+the EM or MCEM pipeline.
 }
 \examples{
 data <- matrix(c(1, NA, 3, 4), ncol = 2)
-model <- em_model(data)
+model1 <- em_model(data)
+model2 <- em_model(data, method = "MCEM")
 }

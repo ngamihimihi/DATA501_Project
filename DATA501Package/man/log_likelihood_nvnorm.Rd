@@ -2,20 +2,38 @@
 % Please edit documentation in R/log_likelihood_nvnorm.R
 \name{log_likelihood_nvnorm}
 \alias{log_likelihood_nvnorm}
-\title{Log-Likelihood of Multivariate Normal Distribution}
+\title{Log-Likelihood for Multivariate Normal Model}
 \usage{
 log_likelihood_nvnorm(data, params)
 }
 \arguments{
-\item{data}{A numeric matrix with no missing values (imputed data).}
+\item{data}{A numeric matrix with missing values (NAs). Missing values are assumed
+to follow a Missing At Random (MAR) mechanism. The computation is handled
+in C++ using only observed entries per row.}
 
-\item{mu}{A numeric vector, the mean vector.}
-
-\item{Sigma}{A numeric matrix, the covariance matrix.}
+\item{params}{A list containing:
+\describe{
+\item{mu}{A numeric vector of means.}
+\item{sigma}{A positive definite covariance matrix.}
+}}
 }
 \value{
-A single numeric value: the log-likelihood.
+A numeric scalar: the total log-likelihood across all rows (using only observed entries).
 }
 \description{
-Computes the total log-likelihood of a complete dataset under a multivariate normal distribution.
+Computes the observed-data log-likelihood under a multivariate normal model,
+given the current parameter estimates (mean vector and covariance matrix).
+}
+\details{
+This function delegates to a C++ routine (\code{_DATA501Package_log_likelihood_nvnorm})
+that efficiently handles missing data by computing the conditional log-density for each row,
+based on its observed components.
+}
+\examples{
+data <- matrix(c(1, NA, 3, 4), ncol = 2)
+params <- list(mu = c(2, 3), sigma = diag(2))
+log_likelihood_nvnorm(data, params)
+}
+\seealso{
+\code{\link{em_engine}}, \code{\link{initialize_parameters_nvnorm}}}
 }

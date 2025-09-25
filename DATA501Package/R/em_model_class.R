@@ -1,28 +1,44 @@
-#' Constructor for em_model object
+#' Constructor for em_model Object
 #'
 #' Initializes an EM model structure with input data and placeholders
-#' for algorithm output.
+#' for algorithm output. Used as the primary object to pass through
+#' the EM or MCEM pipeline.
 #'
-#' @param data A numeric matrix with missing values (NAs).
-#' @param method A character string, either "EM" or "MCEM", this will determine which method to apply
-#' @param early_stop A list to store early stopping information.
+#' @param data A numeric matrix with missing values (NAs). Must not be entirely missing.
+#' @param method A character string, either \code{"EM"} or \code{"MCEM"}, which determines the algorithm to use.
+#' @param distribution A character string indicating the assumed distribution family. Currently only \code{"mvnorm"} is supported.
+#' @param early_stop A list to store convergence status and iteration count. Defaults to an empty list.
 #'
-#' @return An object of class \code{em_model}.
+#' @return An object of class \code{em_model} with initialized slots for parameters, history, and output.
+#'
 #' @export
 #'
 #' @examples
 #' data <- matrix(c(1, NA, 3, 4), ncol = 2)
-#' model <- em_model(data)
+#' model1 <- em_model(data)
+#' model2 <- em_model(data, method = "MCEM")
 em_model <- function(data, method = "EM", distribution="mvnorm",early_stop = list()) {
-  #Throw error if one of the components if not numeric.
+  ##### --- CHECK DATA ---
+  # Throw error if one of the components if not numeric.
   if (!is.matrix(data) || !is.numeric(data)) {
     stop("Input data must be a numeric matrix.")
   }
-  #Throw error if all components are null
+  # Throw error if all components are null
   if (all(is.na(data))) {
     stop("Input data matrix cannot contain only missing values.")
   }
+  #### --- CHECK METHOD ---
+  supported_methods <- c("EM", "MCEM")
+  if (!method %in% supported_methods) {
+    stop("Method must be one of: ", paste(supported_methods, collapse = ", "))
+  }
+  #### --- CHECK DISTRIBUTION ---
+  supported_distribution <- c("nvnorm", "poisson","mixture")
+  if (!distribution %in% supported_distribution) {
+    stop("Only the following distributions are supported currently: ", paste(supported_distribution, collapse = ", "))
+  }
 
+  #### --- OBJECT STRUCTURE
   structure(list(
     data = data,
     method = method,

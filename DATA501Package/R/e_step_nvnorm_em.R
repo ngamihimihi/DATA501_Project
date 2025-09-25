@@ -1,4 +1,4 @@
-#' General E-step Imputation
+#' Standard E-step Imputation
 #'
 #' Performs the E-step of the EM algorithm by imputing missing entries in a
 #' numeric matrix using conditional expectations under the multivariate normal model.
@@ -20,10 +20,11 @@
 #' @examples
 #' data <- matrix(c(1, NA, 3, 4), ncol = 2)
 #' mu <- colMeans(data, na.rm = TRUE)
-#' Sigma <- diag(2)
-#' e_step_nvnorm(data,params)
-e_step_nvnorm <-  function(data, params) {
+#' sigma <- diag(2)
+#' params <- list(mu = mu, sigma = sigma)
+#' e_step_nvnorm_em(data, params)
+e_step_nvnorm_em <- function(data, params) {
   mu <- params$mu
   Sigma <- params$sigma
-  .Call(`_DATA501Package_e_step_nvnorm`, data, mu,Sigma)
+  .Call(`_DATA501Package_e_step_nvnorm_em`, data, mu, Sigma)
 }

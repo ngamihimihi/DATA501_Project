@@ -1,26 +1,29 @@
-#' Log-Likelihood of Multivariate Normal Distribution
+#' Initialize Parameters for Poisson Model
 #'
-#' Computes the total log-likelihood of a fully observed numeric dataset under
-#' a multivariate normal (MVN) distribution with specified mean vector and covariance matrix.
+#' Estimates the rate parameters (\eqn{\lambda}) for each variable in a
+#' Poisson-distributed dataset. This is intended for use with the EM algorithm
+#' under the assumption that each variable follows an independent Poisson distribution.
 #'
-#' @param data A numeric matrix with no missing values. Each row is an observation.
-#' @param mu A numeric vector of means (same length as the number of columns in \code{data}).
-#' @param Sigma A numeric covariance matrix (must be square and match dimensions of \code{mu} and \code{data}).
+#' @param data A numeric matrix of count data (non-negative integers). Missing values (NAs)
+#'   are allowed and are excluded from the calculation via \code{na.rm = TRUE}.
 #'
-#' @return A single numeric value: the total log-likelihood of the data under the MVN model.
+#' @return A list containing:
+#' \describe{
+#'   \item{lambda}{A numeric vector of estimated Poisson means for each column.}
+#' }
 #'
-#' @details This function is typically called within the EM algorithm after missing values
-#' have been imputed. It assumes that the covariance matrix is positive definite.
+#' @details This function computes the initial \eqn{\lambda_j} for each column
+#' by taking the column-wise mean, ignoring missing values. These values serve as
+#' starting parameters for the E-step and M-step of the Poisson EM algorithm.
 #'
-#' @seealso \code{\link{run_em_algorithm}}, \code{\link{e_step_general_impute}}, \code{\link[stats]{mvtnorm}}
+#' @seealso \code{\link{run_em_algorithm}}, \code{\link{em_model}}
 #'
 #' @export
 #'
 #' @examples
-#' data <- matrix(c(1.2, 2.3, 2.0, 3.1, 1.8, 2.8), ncol = 2, byrow = TRUE)
-#' mu <- colMeans(data)
-#' Sigma <- cov(data)
-#' initialize_parameters_mvnorm(data, mu, Sigma)
+#' data <- matrix(c(1, NA, 2, 3, 4, 5), ncol = 2)
+#' params <- initialize_parameters_poisson(data)
+#' params$lambda
 initialize_parameters_poisson <- function(data) {
   lambda <- colMeans(data, na.rm = TRUE)
   list(lambda = lambda)
