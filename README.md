@@ -3,8 +3,17 @@
 This package implements EM-based imputation for with the option to switch to Monte Carlo EM if needed. 
 
 ### Install from GitHub
-devtools::install_github("ngamihimihi/DATA501_Project/DATA501Package",INSTALL_opts = "--install-tests")
+install.packages("devtools") #if not yet installed
+library(devtools)
+devtools::install_github("ngamihimihi/DATA501_Project", subdir = "DATA501Package", INSTALL_opts = "--install-tests",force=TRUE)
+library(devtools)
+#Open the directory as a project using RStudio (.Rproj file if exists), or set the working directory to the root of the package.
+library(testthat)
+usethis::use_testthat()
+devtools::test()
 
+#Instruction for testing
+Before 
 ###Test Plan
 1, Objective.
 To test and validate the functionality of an R package that implements the Expectation-Maximization (EM) and Monte Carlo EM (MCEM) algorithms for missing data imputation under the multivariate normal assumption.
@@ -65,7 +74,7 @@ Current unit tests are prepared for the 2 main object and function.
 To run the unit test:
 devtools::test()
 
-4. Use test data
+### Use test data
 Test data: kc_house_data.csv
 Dependency: dplyr, data needs to be converted to matrix before passing on to run_em_algorithm
 Code to import and test:
