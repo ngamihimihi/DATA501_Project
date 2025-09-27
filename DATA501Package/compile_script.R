@@ -26,13 +26,12 @@ devtools::install()
 .rs.restartR()
 library(DATA501Package)
 # Create 4x4 dataset with missing values
-data <- matrix(c(
-  5.1, 1, 2.0, 3.3,
-  1, NA, 2.2, 1.1,
-  6.1, NA, 2.5, 1,
-  5.0, 6.5, 2.0, 3.0
-), byrow = TRUE, ncol = 4)
-
+# read data
+library(dplyr)
+data<-read.csv("kc_house_data.csv",skip=1,header = FALSE)
+head(data,5)
+data<-data[,-c(1,2)]
+data <- as.matrix(data)
 mu <- c(5.5, 4.2, 2.2, 3.0)
 sigma <-matrix(c(
   1.0, 0.5, 0.3, 0.2,
@@ -52,7 +51,7 @@ model <- em_model(data,distribution = "nvnorm",method = "EM")
 params <- initialize_parameters_nvnorm(model$data)
 params$mu
 params$sigma
-model_em<-run_em_algorithm(model, tolerance = 1e-4)
+model <- em_model(data,distribution = "nvnorm",method = "EM")
 #---Assess result
 model_em$data
 model_em$method
@@ -65,7 +64,7 @@ model_em$imputed
 ## Tets monte carlo
 model <- em_model(data,distribution = "nvnorm",method = "MCEM")
 params <- initialize_parameters_nvnorm(model$data)
-result <- run_em_algorithm(model, tolerance = 1e-4, m = 100)
+result <- run_em_algorithm(model, tolerance = 1e-3, m = 100)
 
 #---Assess result
 result$data
@@ -75,7 +74,8 @@ result$loglik_history
 result$distribution
 result$parameters
   result$parameter_history
-result$imputed
+  result$imputed
+head(result$imputed,5)
 
 # --- Create test file
 library(testthat)
@@ -94,3 +94,10 @@ devtools::build_vignettes()
 browseVignettes("Introduction to the EM Algorithm")
 
 vignette("em-algorithm-intro", package = "DATA501AGM2")
+
+# read data
+library(dplyr)
+data<-read.csv("kc_house_data.csv",skip=1,header = FALSE)
+
+head(data,5)
+

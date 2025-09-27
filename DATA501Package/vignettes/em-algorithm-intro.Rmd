@@ -6,6 +6,12 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+# Introduction
+
+This vignette demonstrates how to use the `em_model()` and `run_em_algorithm()` functions to impute missing values in numeric matrices using the **Expectation-Maximization (EM)** or **Monte Carlo EM (MCEM)** algorithms.
+
+The EM algorithm iteratively performs imputation (E-step) and parameter estimation (M-step) under a probabilistic model (e.g., multivariate normal). MCEM extends this by using Monte Carlo sampling during the E-step when the expectation is not analytically tractable.
+
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -22,19 +28,21 @@ Step 1: Create an em_model object.
 You start by passing your incomplete data into the em_model() constructor.  
 
 ```{r}
+library(DATA501Package)  # Replace with your actual package name
+set.seed(123)
 data <- matrix(c(
-  1.1, NA, 2.3,
-  2.0, 3.4, NA,
-  NA, 2.5, 3.6,
-  1.9, 2.8, 3.1
-), ncol = 3, byrow = TRUE)
+  1.2, NA, 2.4,
+  3.1, 2.2, NA,
+  NA, 1.8, 3.3,
+  2.9, 2.5, 3.0
+), nrow = 4, byrow = TRUE)
+model_em <- em_model(data, distribution = "nvnorm", method = "EM")
 
-model <- em_model(data)
 ```
 
 Step 2: Step 2: Run the EM Algorithm. 
 ```{r}
-model <- run_em_algorithm(model, max_iter = 50, tolerance = 1e-5)
+model <- run_em_algorithm(model_em, tolerance = 1e-4)
 ```
   
 You now have:
@@ -46,19 +54,25 @@ Step 3:Inspect Results.
 ```{r}
 # Check the imputed matrix
 model$imputed
+model$parameters$mu
+model$parameters$sigma
+model$loglik_history
 # View convergence
 plot(model$loglik_history, type = "l", main = "Log-Likelihood", ylab = "LogLik")
 
 ```
-
-Step 4: Understand model structure.  
+  
+  
+Monte Carlo EM (MCEM).
+We can also perform imputation using the Monte Carlo EM variant:
 
 ```{r}
-str(model)
+model_mc <- em_model(data, distribution = "nvnorm", method = "MCEM")
+result_mc <- run_em_algorithm(model_mc, m = 50, burn = 50, thin = 1, tau = 0.1)
 ```
-
-See Also. 
-	•	e_step_general_impute() to impute manually. 
-	•	initialize_parameters() for basic stats before EM. 
-	•	log_likelihood_mvnorm() to compute final likelihood. 
-	
+  
+Inspect result. 
+```{r}
+result_mc$imputed
+result_mc$mc_diagnostics
+```
