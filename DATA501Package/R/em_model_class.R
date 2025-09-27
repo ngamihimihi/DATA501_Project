@@ -1,5 +1,6 @@
 #' Constructor for em_model Object
 #'
+#' In this draft package: only multivariate normal distribution is ready for testing (method = 'nvnorm')
 #' Initializes an EM model structure with input data and placeholders
 #' for algorithm output. Used as the primary object to pass through
 #' the EM or MCEM pipeline.
@@ -17,7 +18,7 @@
 #' data <- matrix(c(1, NA, 3, 4), ncol = 2)
 #' model1 <- em_model(data)
 #' model2 <- em_model(data, method = "MCEM")
-em_model <- function(data, method = "EM", distribution="mvnorm",early_stop = list()) {
+em_model <- function(data, method = "EM", distribution="nvnorm",early_stop = list()) {
   ##### --- CHECK DATA ---
   # Throw error if one of the components if not numeric.
   if (!is.matrix(data) || !is.numeric(data)) {

@@ -1,5 +1,6 @@
 #' Run EM or MCEM depending on model$method
 #'
+#' In this draft package: only multivariate normal distribution is ready for testing (method = 'nvnorm')
 #' Executes the Expectation-Maximization (EM) or Monte Carlo EM (MCEM) algorithm
 #' depending on the \code{method} field of the input \code{em_model} object.
 #'

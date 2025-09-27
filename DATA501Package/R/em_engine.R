@@ -1,9 +1,12 @@
 #' Core EM/MCEM Engine for an em_model Object
 #'
+#' In this draft package: only multivariate normal distribution is ready for testing (method = 'nvnorm')
+#'
 #' Runs the Expectation-Maximization (EM) or Monte Carlo EM (MCEM) algorithm on
 #' an \code{em_model} object assuming a multivariate normal distribution. The algorithm
 #' iteratively imputes missing values (E-step) and updates parameters (M-step) until convergence
 #' or a maximum number of iterations is reached.
+#' In this draft package: only multivariate normal distribution is ready for testing (method = 'nvnorm')
 #'
 #' @param model An object of class \code{em_model}.
 #' @param method Character string: either \code{"EM"} or \code{"MCEM"}.
@@ -84,28 +87,28 @@ em_engine <- function(model, method = "EM", tolerance = 1e-5, max_iter = 100,
       stop("Invalid method: choose 'EM' or 'MCEM'.")
     }
 
-    # Log-likelihood and convergence
-    loglik <- loglik_fn(imputed_data, params)
-    loglik_history <- c(loglik_history, loglik)
-    parameter_history[[iter]] <- params
-
-    if (iter > 1 && abs(loglik - loglik_history[iter - 1]) < tolerance) {
-      converged <- TRUE
-      break
-    }
-
     # M-step
     params <- m_step_fn(imputed_data)
     if (is.null(params$mu) || is.null(params$sigma)) {
       stop("m_step_fn() returned NULL for mu or sigma.")
     }
+    # Log-likelihood after parameter update
+    loglik <- loglik_fn(imputed_data, params)
+    loglik_history <- c(loglik_history, loglik)
+    parameter_history[[iter]] <- params
+    # Convergence check
+    if (iter > 1 && abs(loglik - loglik_history[iter - 1]) < tolerance) {
+      converged <- TRUE
+      break
+    }
     # Log parameter history and the most recent parameter.
-    params$distribution <- dist
-    model$parameters         <- params
-    model$parameter_history  <- parameter_history
+
   }
 
   # Finalize and return model
+  params$distribution      <- dist
+  model$parameters         <- params
+  model$parameter_history  <- parameter_history
   model$loglik_history     <- loglik_history
   model$imputed            <- imputed_data
   model$early_stop         <- list(converged = converged, iterations = iter)

@@ -2,6 +2,7 @@
 #'
 #' Performs the E-step of the Monte Carlo EM (MCEM) algorithm for missing data
 #' under a multivariate normal model using Random Walk Metropolis-Hastings (RW-MH).
+#'In this draft package: only multivariate normal distribution is ready for testing (method = 'nvnorm')
 #'
 #' @param data A numeric matrix with missing values (NAs).
 #' @param params A list containing:

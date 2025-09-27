@@ -45,12 +45,15 @@ An updated \code{em_model} object with the following fields populated:
 }
 }
 \description{
+In this draft package: only multivariate normal distribution is ready for testing (method = 'nvnorm')
+}
+\details{
 Runs the Expectation-Maximization (EM) or Monte Carlo EM (MCEM) algorithm on
 an \code{em_model} object assuming a multivariate normal distribution. The algorithm
 iteratively imputes missing values (E-step) and updates parameters (M-step) until convergence
 or a maximum number of iterations is reached.
-}
-\details{
+In this draft package: only multivariate normal distribution is ready for testing (method = 'nvnorm')
+
 This function is the computational engine underlying the user-facing
 \code{\link{run_em_algorithm}} wrapper. It supports both deterministic EM and
 stochastic MCEM modes. The appropriate E-step and M-step functions are dynamically

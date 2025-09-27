@@ -35,6 +35,7 @@ attribute \code{"mc_accept_rate"} stores the mean acceptance rate of the MCMC sa
 \description{
 Performs the E-step of the Monte Carlo EM (MCEM) algorithm for missing data
 under a multivariate normal model using Random Walk Metropolis-Hastings (RW-MH).
+In this draft package: only multivariate normal distribution is ready for testing (method = 'nvnorm')
 }
 \details{
 This function implements a Random Walk Metropolis-Hastings sampler

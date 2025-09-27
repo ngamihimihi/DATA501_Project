@@ -20,6 +20,7 @@ values imputed using the conditional expectation given observed values.
 \description{
 Performs the E-step of the EM algorithm by imputing missing entries in a
 numeric matrix using conditional expectations under the multivariate normal model.
+In this draft package: only multivariate normal distribution is ready for testing (method = 'nvnorm')
 }
 \details{
 This function is typically called internally by the EM loop

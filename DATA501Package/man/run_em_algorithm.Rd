@@ -35,6 +35,7 @@ An updated \code{em_model} object with filled-in fields such as \code{loglik_his
 \code{parameters}, \code{imputed}, and \code{early_stop}.
 }
 \description{
+In this draft package: only multivariate normal distribution is ready for testing (method = 'nvnorm')
 Executes the Expectation-Maximization (EM) or Monte Carlo EM (MCEM) algorithm
 depending on the \code{method} field of the input \code{em_model} object.
 }

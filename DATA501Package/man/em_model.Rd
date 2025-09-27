@@ -4,7 +4,7 @@
 \alias{em_model}
 \title{Constructor for em_model Object}
 \usage{
-em_model(data, method = "EM", distribution = "mvnorm", early_stop = list())
+em_model(data, method = "EM", distribution = "nvnorm", early_stop = list())
 }
 \arguments{
 \item{data}{A numeric matrix with missing values (NAs). Must not be entirely missing.}

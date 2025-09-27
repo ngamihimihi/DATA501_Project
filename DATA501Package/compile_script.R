@@ -41,6 +41,12 @@ sigma <-matrix(c(
   0.2, 0.3, 0.2, 1.0
 ), nrow = 4)
 params<-list(mu=mu,sigma=sigma)
+
+# Test intput
+mat_na <- matrix(NA, nrow = 3, ncol = 2)
+em_model(mat_na, "EM", "nvnorm")
+
+
 # Test EM model
 model <- em_model(data,distribution = "nvnorm",method = "EM")
 params <- initialize_parameters_nvnorm(model$data)
@@ -71,7 +77,17 @@ result$parameters
   result$parameter_history
 result$imputed
 
-
+# --- Create test file
+library(testthat)
+usethis::use_testthat()
+usethis::use_test("em_model")
+usethis::use_test("initialize_parameters")
+usethis::use_test("e_step_nvnorm_em")
+usethis::use_test("e_step_nvnorm_mcem")
+usethis::use_test("m_step_nvnorm")
+usethis::use_test("log_likelihood_nvnorm")
+usethis::use_test("run_em_algorithm")
+devtools::test()
 # --- generate vignette
 usethis::use_vignette("Introduction to the EM Algorithm")
 devtools::build_vignettes()
