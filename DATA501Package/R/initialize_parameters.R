@@ -33,5 +33,9 @@
 #' initialize_parameters(data, "poisson")
 initialize_parameters <- function(data, dist) {
   init_fn <- get(paste0("initialize_parameters_", dist))
+  if (dist =="mixture") {
+    init_fn(data,k)
+  }
+  else
   init_fn(data)
 }

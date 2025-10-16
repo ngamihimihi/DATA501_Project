@@ -2,7 +2,7 @@
 % Please edit documentation in R/e_step_nvnorm_em.R
 \name{e_step_nvnorm_em}
 \alias{e_step_nvnorm_em}
-\title{Standard E-step Imputation}
+\title{Standard E-step Imputation (Multivariate)}
 \usage{
 e_step_nvnorm_em(data, params)
 }

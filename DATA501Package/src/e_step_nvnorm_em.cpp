@@ -6,8 +6,8 @@ using namespace arma;
 
 // [[Rcpp::export]]
 arma::mat e_step_nvnorm_em(const arma::mat& data,
-                                const arma::vec& mu,
-                                const arma::mat& Sigma) {
+                           const arma::vec& mu,
+                           const arma::mat& Sigma) {
   int n = data.n_rows;
   int d = data.n_cols;
   arma::mat imputed = data;
