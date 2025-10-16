@@ -29,12 +29,11 @@
 #' result <- initialize_parameters_mixture(data)
 #' result$mu
 #' result$pi
-initialize_parameters_mixture <- function(data) {
-  k <- 2  # assume 2 components, can be passed later
-  # Placeholder: k-means initialization
+initialize_parameters_mixture <- function(data, k) {
   km <- kmeans(na.omit(data), centers = k)
+  pi <- rep(1/k,each=ncol(data))
   mu_list <- split(km$centers, rep(1:k, each = ncol(data)))
   pi_vec <- table(km$cluster) / nrow(data)
 
-  list(mu = mu_list, pi = pi_vec)
+  list(pi = pi ,mu = mu_list, pi = pi_vec)
 }

@@ -19,6 +19,7 @@ em_model(data, method = "EM", distribution = "nvnorm", early_stop = list())
 An object of class \code{em_model} with initialized slots for parameters, history, and output.
 }
 \description{
+In this draft package: only multivariate normal distribution is ready for testing (method = 'nvnorm')
 Initializes an EM model structure with input data and placeholders
 for algorithm output. Used as the primary object to pass through
 the EM or MCEM pipeline.

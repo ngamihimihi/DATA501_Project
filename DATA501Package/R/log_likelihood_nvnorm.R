@@ -12,7 +12,7 @@
 #'     \item{sigma}{A positive definite covariance matrix.}
 #'   }
 #'
-#' @return A numeric scalar: the total log-likelihood across all rows (using only observed entries).
+#' @return A numeric scalar: the total log-likelihood across all rows.
 #'
 #' @details This function delegates to a C++ routine (\code{_DATA501Package_log_likelihood_nvnorm})
 #' that efficiently handles missing data by computing the conditional log-density for each row,
