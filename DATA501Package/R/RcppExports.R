@@ -25,3 +25,7 @@ m_step_nvnorm <- function(imputed_data) {
     .Call(`_DATA501Package_m_step_nvnorm`, imputed_data)
 }
 
+m_step_poisson <- function(imputed_data) {
+    .Call(`_DATA501Package_m_step_poisson`, imputed_data)
+}
+

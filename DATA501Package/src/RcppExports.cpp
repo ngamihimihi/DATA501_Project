@@ -89,6 +89,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// m_step_poisson
+Rcpp::List m_step_poisson(const arma::mat& imputed_data);
+RcppExport SEXP _DATA501Package_m_step_poisson(SEXP imputed_dataSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type imputed_data(imputed_dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(m_step_poisson(imputed_data));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_DATA501Package_e_step_nvnorm_em", (DL_FUNC) &_DATA501Package_e_step_nvnorm_em, 3},
@@ -97,6 +108,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_DATA501Package_log_likelihood_nvnorm", (DL_FUNC) &_DATA501Package_log_likelihood_nvnorm, 3},
     {"_DATA501Package_log_likelihood_poisson", (DL_FUNC) &_DATA501Package_log_likelihood_poisson, 2},
     {"_DATA501Package_m_step_nvnorm", (DL_FUNC) &_DATA501Package_m_step_nvnorm, 1},
+    {"_DATA501Package_m_step_poisson", (DL_FUNC) &_DATA501Package_m_step_poisson, 1},
     {NULL, NULL, 0}
 };
 

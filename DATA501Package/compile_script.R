@@ -33,17 +33,47 @@ head(data,5)
 data<-data[,-c(1,2)]
 data <- as.matrix(data)
 mu <- c(5.5, 4.2, 2.2, 3.0)
+<<<<<<< HEAD
 data.poisson <-matrix(c(
   1.0, 0.5, 0.3, NA,
   0.5, NA, 0.4, 0.3,
   0.3, 0.4, NA, 0.2,
   NA, NA, 0.2, 1.0
+=======
+data <-matrix(c(
+  1.0, 0.5, 0.3, 0.2,
+  0.5, NA, 0.4, 0.3,
+  0.3, 0.4, 1.0, NA,
+  0.2, NA, 0.2, 1.0
+>>>>>>> f1bc9dbc6ff6d4895791766c65ddbe29c6d8a016
 ), nrow = 4)
 params<-list(mu=mu,sigma=sigma)
 
 
+<<<<<<< HEAD
 ## Test monte carlo
 model <- em_model(data.poisson,distribution = "poisson",method = "EM")
+=======
+
+# Test EM model
+model <- em_model(data,distribution = "poisson",method = "EM")
+result <- run_em_algorithm(model, tolerance = 1e-3, m = 100)
+params <- initialize_parameters_poisson(model$data)
+params$lambda
+
+model <- em_model(data,distribution = "nvnorm",method = "EM")
+#---Assess result
+model_em$data
+model_em$method
+model_em$early_stop
+model_em$loglik_history
+model_em$distribution
+model_em$parameters$
+model_em$parameter_history
+model_em$imputed
+## Tets monte carlo
+model <- em_model(data,distribution = "nvnorm",method = "MCEM")
+>>>>>>> f1bc9dbc6ff6d4895791766c65ddbe29c6d8a016
 params <- initialize_parameters_nvnorm(model$data)
 result <- run_em_algorithm(model, tolerance = 1e-3, m = 100)
 plot(result, what = "loglik")       # log-likelihood progression
@@ -92,4 +122,38 @@ library(dplyr)
 data<-read.csv("kc_house_data.csv",skip=1,header = FALSE)
 
 head(data,5)
+
+data<-data[,-c(1,2)]
+data <- as.matrix(data)
+model <- em_model(data,distribution = "nvnorm",method = "EM")
+model_em <- em_model(data,distribution = "nvnorm",method = "EM")
+model_mcem<- em_model(data,distribution = "nvnorm",method = "EM")
+#View result
+#Standard EM
+model_em$data
+model_em$method
+model_em$early_stop
+model_em$loglik_history
+model_em$distribution
+model_em$parameters
+model_em$parameter_history
+head(model_em$imputed,5)
+#Monte Carlo EM
+model_mcem$data
+model_mcem$method
+model_mcem$early_stop
+model_mcem$loglik_history
+model_mcem$distribution
+model_mcem$parameters
+model_mcem$parameter_history
+head(model_mcem$imputed,5)
+
+#
+head(model_mcem$data,5)
+result_em <- run_em_algorithm(model_em, tolerance = 1e-3, m = 100)
+result_mcem <- run_em_algorithm(model_mcem, tolerance = 1e-3, m = 100)
+head(model_mcem$data,5)
+head(result_em$imputed,5)
+head(result_mcem$imputed,5)
+
 

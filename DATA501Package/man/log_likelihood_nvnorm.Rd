@@ -18,7 +18,7 @@ in C++ using only observed entries per row.}
 }}
 }
 \value{
-A numeric scalar: the total log-likelihood across all rows (using only observed entries).
+A numeric scalar: the total log-likelihood across all rows.
 }
 \description{
 Computes the observed-data log-likelihood under a multivariate normal model,

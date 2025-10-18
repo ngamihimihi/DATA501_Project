@@ -25,6 +25,20 @@
 #' params <- initialize_parameters_poisson(data)
 #' params$lambda
 initialize_parameters_poisson <- function(data) {
+  if (!is.matrix(data) || !is.numeric(data)) {
+    stop("Input data must be a numeric matrix.")
+  }
+
+  if (any(colSums(!is.na(data)) == 0)) {
+    stop("One or more columns are entirely NA — cannot initialize.")
+  }
+
+  if (any(rowSums(!is.na(data)) == 0)) {
+    warning("Some rows are completely NA — they will be ignored.")
+  }
+
   lambda <- colMeans(data, na.rm = TRUE)
+  #Add jitter so that lambda stays positive.
+  lambda[lambda <= 0] <- 1e-6
   list(lambda = lambda)
 }

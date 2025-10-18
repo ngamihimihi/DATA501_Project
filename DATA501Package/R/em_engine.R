@@ -66,6 +66,7 @@ em_engine <- function(model, method = "EM", tolerance = 1e-5, max_iter = 100,
   iter              <- 0
   converged         <- FALSE
 
+  cat("Using log-likelihood:", paste0("log_likelihood_", dist), "\n")
   while (iter < max_iter) {
     iter <- iter + 1
 
@@ -88,7 +89,13 @@ em_engine <- function(model, method = "EM", tolerance = 1e-5, max_iter = 100,
     }
 
     # M-step
+    print("running get to over Estep")
+    m_step_fn <- get(paste0("m_step_", dist))
     params <- m_step_fn(imputed_data)
+<<<<<<< HEAD
+=======
+
+>>>>>>> f1bc9dbc6ff6d4895791766c65ddbe29c6d8a016
     if (dist == "nvnorm") {
       if (is.null(params$mu) || is.null(params$sigma)) {
         stop("m_step_fn() returned NULL for mu or sigma.")
@@ -101,8 +108,11 @@ em_engine <- function(model, method = "EM", tolerance = 1e-5, max_iter = 100,
       }
     }
     # Log-likelihood after parameter update
+    print("running get to over Mstep")
     loglik <- loglik_fn(imputed_data, params)
     loglik_history <- c(loglik_history, loglik)
+    print(loglik)
+    print(loglik_history)
     parameter_history[[iter]] <- params
     # Convergence check
     if (iter > 1 && abs(loglik - loglik_history[iter - 1]) < tolerance) {

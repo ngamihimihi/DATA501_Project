@@ -1,4 +1,4 @@
-#' Standard E-step Imputation
+#' Standard E-step Imputation (Multivariate)
 #'
 #' Performs the E-step of the EM algorithm by imputing missing entries in a
 #' numeric matrix using conditional expectations under the multivariate normal model.
