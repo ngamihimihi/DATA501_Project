@@ -92,10 +92,7 @@ em_engine <- function(model, method = "EM", tolerance = 1e-5, max_iter = 100,
     print("running get to over Estep")
     m_step_fn <- get(paste0("m_step_", dist))
     params <- m_step_fn(imputed_data)
-<<<<<<< HEAD
-=======
 
->>>>>>> f1bc9dbc6ff6d4895791766c65ddbe29c6d8a016
     if (dist == "nvnorm") {
       if (is.null(params$mu) || is.null(params$sigma)) {
         stop("m_step_fn() returned NULL for mu or sigma.")
@@ -119,8 +116,10 @@ em_engine <- function(model, method = "EM", tolerance = 1e-5, max_iter = 100,
       converged <- TRUE
       break
     }
-    # Log parameter history and the most recent parameter.
-
+  }
+  #Rounding imputed if distribution is Poisson
+  if (dist=="poisson") {
+    imputed_data <- round(imputed_data)
   }
 
   # Finalize and return model

@@ -11,6 +11,20 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// e_step_mixture_em
+Rcpp::List e_step_mixture_em(const arma::mat& X, const arma::mat& mu, const Rcpp::List& Sigma_list, const arma::vec& pi);
+RcppExport SEXP _DATA501Package_e_step_mixture_em(SEXP XSEXP, SEXP muSEXP, SEXP Sigma_listSEXP, SEXP piSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< const arma::mat& >::type mu(muSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::List& >::type Sigma_list(Sigma_listSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type pi(piSEXP);
+    rcpp_result_gen = Rcpp::wrap(e_step_mixture_em(X, mu, Sigma_list, pi));
+    return rcpp_result_gen;
+END_RCPP
+}
 // e_step_nvnorm_em
 arma::mat e_step_nvnorm_em(const arma::mat& data, const arma::vec& mu, const arma::mat& Sigma);
 RcppExport SEXP _DATA501Package_e_step_nvnorm_em(SEXP dataSEXP, SEXP muSEXP, SEXP SigmaSEXP) {
@@ -102,6 +116,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_DATA501Package_e_step_mixture_em", (DL_FUNC) &_DATA501Package_e_step_mixture_em, 4},
     {"_DATA501Package_e_step_nvnorm_em", (DL_FUNC) &_DATA501Package_e_step_nvnorm_em, 3},
     {"_DATA501Package_e_step_nvnorm_mcem", (DL_FUNC) &_DATA501Package_e_step_nvnorm_mcem, 7},
     {"_DATA501Package_e_step_poisson_em", (DL_FUNC) &_DATA501Package_e_step_poisson_em, 2},

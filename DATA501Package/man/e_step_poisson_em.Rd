@@ -2,22 +2,14 @@
 % Please edit documentation in R/e_step_poisson_em.R
 \name{e_step_poisson_em}
 \alias{e_step_poisson_em}
-<<<<<<< HEAD
 \title{Standard E-step Imputation}
-=======
-\title{Standard E-step Imputation (Poisson)}
->>>>>>> f1bc9dbc6ff6d4895791766c65ddbe29c6d8a016
 \usage{
 e_step_poisson_em(data, params)
 }
 \arguments{
 \item{data}{A numeric matrix with missing values (NAs).}
 
-<<<<<<< HEAD
-\item{lambda}{A numeric vector representing the mean of the distribution.}
-=======
 \item{lambda}{A numeric vector representing the lambda of the distribution.}
->>>>>>> f1bc9dbc6ff6d4895791766c65ddbe29c6d8a016
 }
 \value{
 A numeric matrix of the same dimensions as \code{data}, with missing
@@ -25,11 +17,7 @@ values imputed using the conditional expectation given observed values.
 }
 \description{
 Performs the E-step of the EM algorithm by imputing missing entries in a
-<<<<<<< HEAD
 numeric matrix using conditional expectations under the poisson distribution model.
-=======
-numeric matrix using conditional expectations under the poisson model.
->>>>>>> f1bc9dbc6ff6d4895791766c65ddbe29c6d8a016
 }
 \details{
 This function is typically called internally by the EM loop
@@ -42,9 +30,5 @@ params <- list(lambda = lambda)
 e_step_poisson_em(data, params)
 }
 \seealso{
-<<<<<<< HEAD
 \code{\link{run_em_algorithm}}, \code{\link{log_likelihood_poisson}}
-=======
-\code{\link{run_em_algorithm}}
->>>>>>> f1bc9dbc6ff6d4895791766c65ddbe29c6d8a016
 }

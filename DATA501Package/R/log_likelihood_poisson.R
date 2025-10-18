@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-log_likelihood_poisson <- function(data, params) {
-  lambda <- params$lambda
-  .Call(`_DATA501Package_log_likelihood_poisson`, data, lambda)
-=======
 #' Log-Likelihood for Poisson Model
 #'
 #' Computes the observed-data log-likelihood under a Poisson model,
@@ -56,5 +51,4 @@ log_likelihood_poisson <- function(data, params) {
 log_likelihood_poisson <- function(data, params) {
   lambda <- params$lambda
   .Call(`_DATA501Package_log_likelihood_poisson`, data,lambda)
->>>>>>> f1bc9dbc6ff6d4895791766c65ddbe29c6d8a016
 }

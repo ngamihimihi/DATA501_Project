@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-m_step_poisson <- function(imputed_data) {
-  lambda <- colMeans(imputed_data, na.rm = TRUE)
-  list(lambda = lambda)
-}
-=======
 #' M-step for Poisson Model
 #'
 #' Performs the M-step of the EM algorithm for a poisson distribution,
@@ -31,8 +25,7 @@ m_step_poisson <- function(imputed_data) {
 #' params <- list(lambda = lambda)
 #' imputed <- e_step_poisson(data, params)
 #' m_step_poisson(imputed)
-m_step_poisson <- function(imputed_data) {
-  .Call(`_DATA501Package_m_step_poisson`, imputed_data)
+m_step_poisson <- function(imputed_data, round_lambda = FALSE) {
+  .Call(`_DATA501Package_m_step_poisson`, imputed_data, round_lambda)
 }
 
->>>>>>> f1bc9dbc6ff6d4895791766c65ddbe29c6d8a016

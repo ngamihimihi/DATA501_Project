@@ -27,39 +27,37 @@ devtools::install()
 library(DATA501Package)
 # Create 4x4 dataset with missing values
 # read data
+#--- Test poisson
+data <- matrix(c(1, NA, NA, 3, 4, 5), ncol = 2)
+params <- list(lambda = c(1.5, 2.5))
+log_likelihood_poisson(data, params)
+imputed<-e_step_poisson_em(data,params)
+m_step_poisson(imputed)
+
+#
 library(dplyr)
 data<-read.csv("kc_house_data.csv",skip=1,header = FALSE)
 head(data,5)
 data<-data[,-c(1,2)]
 data <- as.matrix(data)
-mu <- c(5.5, 4.2, 2.2, 3.0)
-<<<<<<< HEAD
-data.poisson <-matrix(c(
-  1.0, 0.5, 0.3, NA,
-  0.5, NA, 0.4, 0.3,
-  0.3, 0.4, NA, 0.2,
-  NA, NA, 0.2, 1.0
-=======
-data <-matrix(c(
-  1.0, 0.5, 0.3, 0.2,
-  0.5, NA, 0.4, 0.3,
-  0.3, 0.4, 1.0, NA,
-  0.2, NA, 0.2, 1.0
->>>>>>> f1bc9dbc6ff6d4895791766c65ddbe29c6d8a016
-), nrow = 4)
+set.seed(123)  # for reproducibility
+
+# Generate a 20x4 matrix from Poisson distributions with different λ per column
+data.poisson <- matrix(c(1,23,67,NA,
+                        NA,820,1,3,
+                        5,NA,10,5,
+                        10,40,23,NA,
+                        NA,70,5,3),  ncol = 4)
+print(data.poisson)
 params<-list(mu=mu,sigma=sigma)
 
-
-<<<<<<< HEAD
-## Test monte carlo
-model <- em_model(data.poisson,distribution = "poisson",method = "EM")
-=======
-
 # Test EM model
-model <- em_model(data,distribution = "poisson",method = "EM")
-result <- run_em_algorithm(model, tolerance = 1e-3, m = 100)
+model <- em_model(data.poisson,distribution = "poisson",method = "EM")
+result <- run_em_algorithm(model, tolerance = 1e-5, m = 50)
 params <- initialize_parameters_poisson(model$data)
-params$lambda
+plot(result, what = "loglik")       # log-likelihood progression
+summary(result)
+result$imputed
 
 model <- em_model(data,distribution = "nvnorm",method = "EM")
 #---Assess result
@@ -73,13 +71,12 @@ model_em$parameter_history
 model_em$imputed
 ## Tets monte carlo
 model <- em_model(data,distribution = "nvnorm",method = "MCEM")
->>>>>>> f1bc9dbc6ff6d4895791766c65ddbe29c6d8a016
 params <- initialize_parameters_nvnorm(model$data)
 result <- run_em_algorithm(model, tolerance = 1e-3, m = 100)
 plot(result, what = "loglik")       # log-likelihood progression
 summary(result)
 result$imputed
-htg6
+
 unlist(result$parameters_history)
 
 head(result$parameters_history,5)
