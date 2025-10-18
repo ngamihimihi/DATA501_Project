@@ -9,8 +9,16 @@ e_step_nvnorm_mcem <- function(data, mu, Sigma, m, burn, thin, tau) {
     .Call(`_DATA501Package_e_step_nvnorm_mcem`, data, mu, Sigma, m, burn, thin, tau)
 }
 
+e_step_poisson_em <- function(data, lambda) {
+    .Call(`_DATA501Package_e_step_poisson_em`, data, lambda)
+}
+
 log_likelihood_nvnorm <- function(data, mu, Sigma) {
     .Call(`_DATA501Package_log_likelihood_nvnorm`, data, mu, Sigma)
+}
+
+log_likelihood_poisson <- function(data, lambda) {
+    .Call(`_DATA501Package_log_likelihood_poisson`, data, lambda)
 }
 
 m_step_nvnorm <- function(imputed_data) {

@@ -34,7 +34,7 @@ em_model <- function(data, method = "EM", distribution="nvnorm",early_stop = lis
     stop("Method must be one of: ", paste(supported_methods, collapse = ", "))
   }
   #### --- CHECK DISTRIBUTION ---
-  supported_distribution <- c("nvnorm", "poisson","mixture")
+  supported_distribution <- c("nvnorm", "poisson")
   if (!distribution %in% supported_distribution) {
     stop("Only the following distributions are supported currently: ", paste(supported_distribution, collapse = ", "))
   }

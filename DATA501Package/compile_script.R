@@ -33,48 +33,40 @@ head(data,5)
 data<-data[,-c(1,2)]
 data <- as.matrix(data)
 mu <- c(5.5, 4.2, 2.2, 3.0)
-sigma <-matrix(c(
-  1.0, 0.5, 0.3, 0.2,
-  0.5, 1.0, 0.4, 0.3,
-  0.3, 0.4, 1.0, 0.2,
-  0.2, 0.3, 0.2, 1.0
+data.poisson <-matrix(c(
+  1.0, 0.5, 0.3, NA,
+  0.5, NA, 0.4, 0.3,
+  0.3, 0.4, NA, 0.2,
+  NA, NA, 0.2, 1.0
 ), nrow = 4)
 params<-list(mu=mu,sigma=sigma)
 
-# Test intput
-mat_na <- matrix(NA, nrow = 3, ncol = 2)
-em_model(mat_na, "EM", "nvnorm")
 
-
-# Test EM model
-model <- em_model(data,distribution = "nvnorm",method = "EM")
-params <- initialize_parameters_nvnorm(model$data)
-params$mu
-params$sigma
-model <- em_model(data,distribution = "nvnorm",method = "EM")
-#---Assess result
-model_em$data
-model_em$method
-model_em$early_stop
-model_em$loglik_history
-model_em$distribution
-model_em$parameters$
-model_em$parameter_history
-model_em$imputed
-## Tets monte carlo
-model <- em_model(data,distribution = "nvnorm",method = "MCEM")
+## Test monte carlo
+model <- em_model(data.poisson,distribution = "poisson",method = "EM")
 params <- initialize_parameters_nvnorm(model$data)
 result <- run_em_algorithm(model, tolerance = 1e-3, m = 100)
+plot(result, what = "loglik")       # log-likelihood progression
+summary(result)
+result$imputed
+htg6
+unlist(result$parameters_history)
 
+head(result$parameters_history,5)
 #---Assess result
+
 result$data
 result$method
 result$early_stop
 result$loglik_history
 result$distribution
 result$parameters
-  result$parameter_history
-  result$imputed
+  head(result$parameter_history[[4]]$mu,5)
+  head(result$parameter_history[[5]]$mu,5)
+  head(result$parameter_history[[6]]$mu,5)
+  head(result$parameter_history[[7]]$mu,5)
+  class(result$parameter_history)
+  (result$mc_diagnostics[[0]])
 head(result$imputed,5)
 
 # --- Create test file

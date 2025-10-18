@@ -41,6 +41,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// e_step_poisson_em
+arma::mat e_step_poisson_em(const arma::mat& data, const arma::vec& lambda);
+RcppExport SEXP _DATA501Package_e_step_poisson_em(SEXP dataSEXP, SEXP lambdaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type lambda(lambdaSEXP);
+    rcpp_result_gen = Rcpp::wrap(e_step_poisson_em(data, lambda));
+    return rcpp_result_gen;
+END_RCPP
+}
 // log_likelihood_nvnorm
 double log_likelihood_nvnorm(const arma::mat& data, const arma::vec& mu, const arma::mat& Sigma);
 RcppExport SEXP _DATA501Package_log_likelihood_nvnorm(SEXP dataSEXP, SEXP muSEXP, SEXP SigmaSEXP) {
@@ -51,6 +63,18 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const arma::vec& >::type mu(muSEXP);
     Rcpp::traits::input_parameter< const arma::mat& >::type Sigma(SigmaSEXP);
     rcpp_result_gen = Rcpp::wrap(log_likelihood_nvnorm(data, mu, Sigma));
+    return rcpp_result_gen;
+END_RCPP
+}
+// log_likelihood_poisson
+double log_likelihood_poisson(const arma::mat& data, const arma::vec& lambda);
+RcppExport SEXP _DATA501Package_log_likelihood_poisson(SEXP dataSEXP, SEXP lambdaSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const arma::mat& >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< const arma::vec& >::type lambda(lambdaSEXP);
+    rcpp_result_gen = Rcpp::wrap(log_likelihood_poisson(data, lambda));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -69,7 +93,9 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_DATA501Package_e_step_nvnorm_em", (DL_FUNC) &_DATA501Package_e_step_nvnorm_em, 3},
     {"_DATA501Package_e_step_nvnorm_mcem", (DL_FUNC) &_DATA501Package_e_step_nvnorm_mcem, 7},
+    {"_DATA501Package_e_step_poisson_em", (DL_FUNC) &_DATA501Package_e_step_poisson_em, 2},
     {"_DATA501Package_log_likelihood_nvnorm", (DL_FUNC) &_DATA501Package_log_likelihood_nvnorm, 3},
+    {"_DATA501Package_log_likelihood_poisson", (DL_FUNC) &_DATA501Package_log_likelihood_poisson, 2},
     {"_DATA501Package_m_step_nvnorm", (DL_FUNC) &_DATA501Package_m_step_nvnorm, 1},
     {NULL, NULL, 0}
 };

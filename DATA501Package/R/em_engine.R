@@ -89,8 +89,16 @@ em_engine <- function(model, method = "EM", tolerance = 1e-5, max_iter = 100,
 
     # M-step
     params <- m_step_fn(imputed_data)
-    if (is.null(params$mu) || is.null(params$sigma)) {
-      stop("m_step_fn() returned NULL for mu or sigma.")
+    if (dist == "nvnorm") {
+      if (is.null(params$mu) || is.null(params$sigma)) {
+        stop("m_step_fn() returned NULL for mu or sigma.")
+      }
+    }
+
+    if (dist == "poisson") {
+      if (is.null(params$lambda)) {
+        stop("m_step_fn() returned NULL for lambda.")
+      }
     }
     # Log-likelihood after parameter update
     loglik <- loglik_fn(imputed_data, params)
