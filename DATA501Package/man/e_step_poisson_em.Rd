@@ -2,7 +2,7 @@
 % Please edit documentation in R/e_step_poisson_em.R
 \name{e_step_poisson_em}
 \alias{e_step_poisson_em}
-\title{Standard E-step Imputation (Poisson)}
+\title{Standard E-step Imputation}
 \usage{
 e_step_poisson_em(data, params)
 }
@@ -17,7 +17,7 @@ values imputed using the conditional expectation given observed values.
 }
 \description{
 Performs the E-step of the EM algorithm by imputing missing entries in a
-numeric matrix using conditional expectations under the poisson model.
+numeric matrix using conditional expectations under the poisson distribution model.
 }
 \details{
 This function is typically called internally by the EM loop
@@ -30,5 +30,5 @@ params <- list(lambda = lambda)
 e_step_poisson_em(data, params)
 }
 \seealso{
-\code{\link{run_em_algorithm}}
+\code{\link{run_em_algorithm}}, \code{\link{log_likelihood_poisson}}
 }

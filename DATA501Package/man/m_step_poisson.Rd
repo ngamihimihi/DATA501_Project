@@ -4,7 +4,7 @@
 \alias{m_step_poisson}
 \title{M-step for Poisson Model}
 \usage{
-m_step_poisson(imputed_data)
+m_step_poisson(imputed_data, round_lambda = FALSE)
 }
 \arguments{
 \item{imputed_data}{A numeric matrix where missing values have been filled in,

@@ -27,30 +27,37 @@ devtools::install()
 library(DATA501Package)
 # Create 4x4 dataset with missing values
 # read data
+#--- Test poisson
+data <- matrix(c(1, NA, NA, 3, 4, 5), ncol = 2)
+params <- list(lambda = c(1.5, 2.5))
+log_likelihood_poisson(data, params)
+imputed<-e_step_poisson_em(data,params)
+m_step_poisson(imputed)
+
+#
 library(dplyr)
 data<-read.csv("kc_house_data.csv",skip=1,header = FALSE)
 head(data,5)
 data<-data[,-c(1,2)]
 data <- as.matrix(data)
-mu <- c(5.5, 4.2, 2.2, 3.0)
-data <-matrix(c(
-  1.0, 0.5, 0.3, 0.2,
-  0.5, NA, 0.4, 0.3,
-  0.3, 0.4, 1.0, NA,
-  0.2, NA, 0.2, 1.0
-), nrow = 4)
+set.seed(123)  # for reproducibility
+
+# Generate a 20x4 matrix from Poisson distributions with different λ per column
+data.poisson <- matrix(c(1,23,67,NA,
+                        NA,820,1,3,
+                        5,NA,10,5,
+                        10,40,23,NA,
+                        NA,70,5,3),  ncol = 4)
+print(data.poisson)
 params<-list(mu=mu,sigma=sigma)
 
-# Test intput
-mat_na <- matrix(NA, nrow = 3, ncol = 2)
-em_model(mat_na, "EM", "nvnorm")
-
-
 # Test EM model
-model <- em_model(data,distribution = "poisson",method = "EM")
-result <- run_em_algorithm(model, tolerance = 1e-3, m = 100)
+model <- em_model(data.poisson,distribution = "poisson",method = "EM")
+result <- run_em_algorithm(model, tolerance = 1e-5, m = 50)
 params <- initialize_parameters_poisson(model$data)
-params$lambda
+plot(result, what = "loglik")       # log-likelihood progression
+summary(result)
+result$imputed
 
 model <- em_model(data,distribution = "nvnorm",method = "EM")
 #---Assess result
@@ -66,16 +73,27 @@ model_em$imputed
 model <- em_model(data,distribution = "nvnorm",method = "MCEM")
 params <- initialize_parameters_nvnorm(model$data)
 result <- run_em_algorithm(model, tolerance = 1e-3, m = 100)
+plot(result, what = "loglik")       # log-likelihood progression
+summary(result)
+result$imputed
 
+unlist(result$parameters_history)
+
+head(result$parameters_history,5)
 #---Assess result
+
 result$data
 result$method
 result$early_stop
 result$loglik_history
 result$distribution
 result$parameters
-  result$parameter_history
-  result$imputed
+  head(result$parameter_history[[4]]$mu,5)
+  head(result$parameter_history[[5]]$mu,5)
+  head(result$parameter_history[[6]]$mu,5)
+  head(result$parameter_history[[7]]$mu,5)
+  class(result$parameter_history)
+  (result$mc_diagnostics[[0]])
 head(result$imputed,5)
 
 # --- Create test file

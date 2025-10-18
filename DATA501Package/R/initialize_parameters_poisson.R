@@ -37,8 +37,10 @@ initialize_parameters_poisson <- function(data) {
     warning("Some rows are completely NA — they will be ignored.")
   }
 
-  lambda <- colMeans(data, na.rm = TRUE)
+  lambda <- round(colMeans(data, na.rm = TRUE),0)
+
   #Add jitter so that lambda stays positive.
   lambda[lambda <= 0] <- 1e-6
+
   list(lambda = lambda)
 }

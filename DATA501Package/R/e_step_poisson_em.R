@@ -1,3 +1,10 @@
+
+#' Standard E-step Imputation
+#'
+#' Performs the E-step of the EM algorithm by imputing missing entries in a
+#' numeric matrix using conditional expectations under the poisson distribution model.
+#' @param data A numeric matrix with missing values (NAs).
+#' @param lambda A numeric vector representing the mean of the distribution.
 #' Standard E-step Imputation (Poisson)
 #'
 #' Performs the E-step of the EM algorithm by imputing missing entries in a
@@ -11,7 +18,8 @@
 #' @details This function is typically called internally by the EM loop
 #'   (\code{\link{run_em_algorithm}}), but it can be used standalone for testing.
 #'
-#' @seealso \code{\link{run_em_algorithm}}
+#' @seealso \code{\link{run_em_algorithm}}, \code{\link{log_likelihood_poisson}}
+#'
 #' @export
 #'
 #' @examples

@@ -19,10 +19,18 @@
 #' model1 <- em_model(data)
 #' model2 <- em_model(data, method = "MCEM")
 em_model <- function(data, method = "EM", distribution="nvnorm",early_stop = list()) {
-  ##### --- CHECK DATA ---
+  ##### --- CHECK DATA POISSON DISTRIBUTION: POSITIVE INPUT ---
   # Throw error if one of the components if not numeric.
   if (!is.matrix(data) || !is.numeric(data)) {
     stop("Input data must be a numeric matrix.")
+  }
+  ##### --- CHECK DATA ---
+  # Throw error if one of the components if not numeric.
+  if (tolower(distribution) == "poisson") {
+    if (any(data[!is.na(data)] < 0))
+      stop("Poisson data must be nonnegative.")
+    if (any(abs(data[!is.na(data)] - round(data[!is.na(data)])) > 1e-8))
+      stop("Poisson data must contain integer (count) values.")
   }
   # Throw error if all components are null
   if (all(is.na(data))) {

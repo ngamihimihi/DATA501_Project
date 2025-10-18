@@ -25,7 +25,7 @@
 #' params <- list(lambda = lambda)
 #' imputed <- e_step_poisson(data, params)
 #' m_step_poisson(imputed)
-m_step_poisson <- function(imputed_data) {
-  .Call(`_DATA501Package_m_step_poisson`, imputed_data)
+m_step_poisson <- function(imputed_data, round_lambda = FALSE) {
+  .Call(`_DATA501Package_m_step_poisson`, imputed_data, round_lambda)
 }
 

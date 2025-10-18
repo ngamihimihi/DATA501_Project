@@ -116,8 +116,10 @@ em_engine <- function(model, method = "EM", tolerance = 1e-5, max_iter = 100,
       converged <- TRUE
       break
     }
-    # Log parameter history and the most recent parameter.
-
+  }
+  #Rounding imputed if distribution is Poisson
+  if (dist=="poisson") {
+    imputed_data <- round(imputed_data)
   }
 
   # Finalize and return model
