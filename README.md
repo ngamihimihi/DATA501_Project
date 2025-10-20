@@ -12,7 +12,7 @@ remotes::install_github("ngamihimihi/DATA501_Project",
                         build_vignettes = TRUE, 
                         INSTALL_opts = c("--install-tests"))
 
-###Instruction for testing
+### Instruction for testing
 Detail of the test plan can be found: [here](https://github.com/ngamihimihi/DATA501_Project/blob/main/DATA501Package/doc/Test_plan.pdf)
 
 ### Use test data
@@ -27,7 +27,7 @@ model <- em_model(data,distribution = "nvnorm",method = "EM")
 model_em <- em_model(data,distribution = "nvnorm",method = "EM")
 model_mcem<- em_model(data,distribution = "nvnorm",method = "EM")
 
-####View result
+#### View result
 
 #Standard EM
 model_em$data
