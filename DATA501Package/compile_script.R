@@ -148,7 +148,7 @@ head(model_mcem$imputed,5)
 
 #
 head(model_mcem$data,5)
-result_em <- run_em_algorithm(model_em, tolerance = 1e-3, m = 100)
+result_em <- run_em_algorithm(model_mcem, tolerance = 1e-3, m = 100)
 result_mcem <- run_em_algorithm(model_mcem, tolerance = 1e-3, m = 100)
 head(model_mcem$data,5)
 head(result_em$imputed,5)

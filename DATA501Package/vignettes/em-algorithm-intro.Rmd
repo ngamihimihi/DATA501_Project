@@ -136,13 +136,13 @@ data_pois <- matrix(rpois(12, lambda = 3), nrow = 4)
 data_pois[2, 3] <- NA  
 
 model_pois <- em_model(data_pois, distribution = "poisson", method = "EM")
-model_pois <- run_em_algorithm(model_pois, tolerance = 1e-4)
+result_pois <- run_em_algorithm(model_pois, tolerance = 1e-4)
 ```
 
 Inspect result. 
 ```{r}
-model_pois$imputed
-model_pois$parameters$lambda
+result_pois$imputed
+result_pois$parameters$lambda
 
 ```
 
@@ -154,14 +154,38 @@ The EM and MCEM methods record:
 - Early stopping if tolerance is met before max_iter
 The convergence can be visualised using:  
 ```{r}
-plot(model_pois$loglik_history, type = "l", col = "blue",
+plot(result_pois$loglik_history, type = "l", col = "blue",
      main = "Poisson EM Convergence", ylab = "Log-Likelihood", xlab = "Iteration")
 
 ```
 
+# Explore summary and plot
+
+The package provides built-in method to summarise overall package run and change in log-likelihood over iteration. 
+
+View log likelihood plots.
+ 
+```{r,eval=FALSE,result='hide'}
+# Poisson data imputation
+plot(result_pois, what = "loglik")      
+# Multivariate normal data distribution
+plot(result_mc, what = "loglik")
+
+```
       
+View package run summary.  
+
+```{r,eval=FALSE,results='hide'}
+# Poisson data imputation summary
+summary(model_pois)      
+# Multivariate normal data imputation summary
+summary(result_mc)
+
+```
 # Reference
 
-Dempster, A. P., Laird, N. M., & Rubin, D. B. (1977). Maximum Likelihood from Incomplete Data via the EM Algorithm. Journal of the Royal Statistical Society: Series B (Methodological), 39(1), 1–22.  
-Wei, G. C. G., & Tanner, M. A. (1990). A Monte Carlo Implementation of the EM Algorithm and the Poor Man’s Data Augmentation Algorithms. Journal of the American Statistical Association, 85(411), 699–704.  
+Dempster, A. P., Laird, N. M., & Rubin, D. B. (1977). Maximum Likelihood from Incomplete Data via the EM Algorithm. Journal of the Royal Statistical Society: Series B (Methodological), 39(1), 1–22  
+Wei, G. C. G., & Tanner, M. A. (1990). A Monte Carlo Implementation of the EM Algorithm and the Poor Man’s Data Augmentation Algorithms. Journal of the American Statistical Association, 85(411), 699–704   
+Levine, R. A., & Casella, G. (2001). Implementations of the Monte Carlo EM Algorithm. Journal of Computational and Graphical Statistics, 10(3), 422–439. http://www.jstor.org/stable/1391097   
+Christian P. Robert and George Casella. 2005. Monte Carlo Statistical Methods (Springer Texts in Statistics). Springer-Verlag, Berlin, Heidelberg.
 

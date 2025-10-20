@@ -66,7 +66,7 @@ em_engine <- function(model, method = "EM", tolerance = 1e-5, max_iter = 100,
   iter              <- 0
   converged         <- FALSE
 
-  cat("Using log-likelihood:", paste0("log_likelihood_", dist), "\n")
+  #DEBUG: cat("Using log-likelihood:", paste0("log_likelihood_", dist), "\n")
   while (iter < max_iter) {
     iter <- iter + 1
 
@@ -108,8 +108,8 @@ em_engine <- function(model, method = "EM", tolerance = 1e-5, max_iter = 100,
     #DEBUG:print("running get to over Mstep")
     loglik <- loglik_fn(imputed_data, params)
     loglik_history <- c(loglik_history, loglik)
-    print(loglik)
-    print(loglik_history)
+    #DEBUG print(loglik)
+    #DEBUG print(loglik_history)
     parameter_history[[iter]] <- params
     # Convergence check
     if (iter > 1 && abs(loglik - loglik_history[iter - 1]) < tolerance) {
