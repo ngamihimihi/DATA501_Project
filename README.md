@@ -5,16 +5,16 @@ The package is designed for data scientists, statisticians, and researchers work
 
 
 ### Install from GitHub
-# install.packages("remotes")
-# if not already installed
+#install.packages("remotes")
+#if not already installed
 remotes::install_github("ngamihimihi/DATA501_Project", 
                         subdir = "DATA501Package",
                         build_vignettes = TRUE, 
                         INSTALL_opts = c("--install-tests"))
 
 ###Instruction for testing
-Detail of the test plan can be found: DATA501_Project/DATA501Package/doc
-/Test_plan.pdf
+Detail of the test plan can be found: [here](https://github.com/ngamihimihi/DATA501_Project/blob/main/DATA501Package/doc/Test_plan.pdf)
+
 ### Use test data
 Test data: kc_house_data.csv
 Dependency: dplyr, data needs to be converted to matrix before passing on to run_em_algorithm
@@ -27,7 +27,7 @@ model <- em_model(data,distribution = "nvnorm",method = "EM")
 model_em <- em_model(data,distribution = "nvnorm",method = "EM")
 model_mcem<- em_model(data,distribution = "nvnorm",method = "EM")
 
-#View result
+####View result
 
 #Standard EM
 model_em$data
