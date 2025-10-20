@@ -20,8 +20,11 @@ remotes::install_github(
 Detail of the test plan can be found: [here](https://github.com/ngamihimihi/DATA501_Project/blob/main/DATA501Package/doc/Test_plan.pdf)
 
 ### Use test data
-Test data: kc_house_data.csv
-Dependency: dplyr, data needs to be converted to matrix before passing on to run_em_algorithm
+Test data: kc_house_data.csv <br>
+
+Dependency: dplyr <br>
+Data needs to be converted to matrix before passing on to run_em_algorithm
+
 Code to import and test:
 ```{r}
 data<-read.csv("kc_house_data.csv",skip=1,header = FALSE)
