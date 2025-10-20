@@ -59,10 +59,10 @@ test_that("Method must be one of: EM, MCEM", {
   expect_error(em_model(data,method="MOO",dist),"Method must be one of: EM, MCEM")
 })
 
-test_that("Distribution must be one of: nvnorm, poisson, mixture", {
+test_that("Distribution must be one of: nvnorm, poisson", {
   data <- matrix(c(1, NA, 2, 4), ncol = 2)
   method<-"EM"
-  expect_error(em_model(data,method,distribution="MOO"),"Only the following distributions are supported currently: nvnorm, poisson, mixture")
+  expect_error(em_model(data,method,distribution="MOO"),"Only the following distributions are supported currently: nvnorm, poisson")
 })
 ######################
 # --- Valid output---#

@@ -1,78 +1,167 @@
 ---
-title: "Introduction to the EM Algorithm"
+title: "Expectation-Maximization and Monte Carlo EM for Missing Data Imputation"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to the EM Algorithm}
+  %\VignetteIndexEntry{Expectation-Maximization and Monte Carlo EM for Missing Data Imputation}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
-# Introduction
+# Overview
 
-This vignette demonstrates how to use the `em_model()` and `run_em_algorithm()` functions to impute missing values in numeric matrices using the **Expectation-Maximization (EM)** or **Monte Carlo EM (MCEM)** algorithms.
+DATA501Package implements a family of Expectation-Maximization (EM) algorithms for missing data imputation under common statistical distributions.
+It provides both standard EM and Monte Carlo EM (MCEM) variants for flexible modeling when the analytical expectation is not tractable.  
+The package is designed for data scientists, statisticians, and researchers working with incomplete numerical datasets and requiring probabilistic imputation while maintaining interpretability and convergence diagnostics.  
 
-The EM algorithm iteratively performs imputation (E-step) and parameter estimation (M-step) under a probabilistic model (e.g., multivariate normal). MCEM extends this by using Monte Carlo sampling during the E-step when the expectation is not analytically tractable.
+# Motivation and purpose
+Incomplete data is a pervasive challenge in real-world datasets.
+The EM algorithm provides a principled way to estimate parameters and impute missing values by iteratively:  
+	1.	E-step: Estimating missing values given current parameters.  
+	2.	M-step: Updating model parameters to maximize the expected log-likelihood.  
+When the E-step expectation is difficult or impossible to compute analytically, the Monte Carlo EM (MCEM) algorithm replaces it with a simulation-based approximation, sampling from the conditional distribution of missing data.  
+This package aims to:  
+- Provide modular, distribution-specific EM implementations (Normal, Poisson).  
+- Support both deterministic EM and stochastic Monte Carlo EM variants.  
+- Offer a consistent, extensible interface for missing data imputation, parameter tracking, and convergence diagnostics.  
 
+# Package Architecture
+The package is built around a central S3 object, em_model, which stores:  
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
+| Slot | Description |
+|------|--------------|
+| `data` | Input matrix with missing values |
+| `distribution` | Distribution type (`"nvnorm"`, `"poisson"`) |
+| `method` | EM or MCEM algorithm |
+| `parameters` | Current parameter estimates (e.g., μ, Σ, or λ) |
+| `parameter_history` | Tracking of parameter updates per iteration |
+| `loglik_history` | Log-likelihood values for convergence tracking |
+| `imputed` | Final imputed dataset |
+| `mc_diagnostics` | Monte Carlo acceptance and diagnostics (MCEM only) |
 
-```{r setup}
-library(DATA501Package)
-```
+# Included Functions
 
-Step 1: Create an em_model object.
-You start by passing your incomplete data into the em_model() constructor.  
+Core Interface. 
+
+| Function | Description |
+|-----------|-------------|
+| `em_model()` | Initializes the model object with data, distribution, and method type |
+| `run_em_algorithm()` | Executes the EM or MCEM iteration loop until convergence or tolerance is reached |
+
+# Supported Distribution. 
+
+Currently, the following distributions are supported:  
+	1.	Multivariate Normal ("nvnorm"). 
+	Suitable for continuous numerical data.  
+	Supports both EM and MCEM methods.  
+	Parameters: Mean vector (μ), Covariance matrix (Σ).  
+	2. Poisson ("poisson"). 
+	Suitable for count data.
+	Supports standard EM method only.  
+	Parameters: Rate parameter vector (λ).  
+	
+# Example Workflow
+
+Step 1. Create an em_model object. 
+You start by passing your incomplete matrix into em_model().
+Below is an example with missing data under a multivariate normal assumption.  
 
 ```{r}
-library(DATA501Package)  # Replace with your actual package name
+library(DATA501Package)
 set.seed(123)
+
 data <- matrix(c(
   1.2, NA, 2.4,
   3.1, 2.2, NA,
   NA, 1.8, 3.3,
   2.9, 2.5, 3.0
 ), nrow = 4, byrow = TRUE)
+
 model_em <- em_model(data, distribution = "nvnorm", method = "EM")
+```
+
+Step 2. Run the EM Algorithm. 
+```{r,results='hide'}
+model_em <- run_em_algorithm(model_em, tolerance = 1e-4)
+```
+
+Output Components. 
+After convergence, the object contains:
+
+| Component | Description |
+|------------|-------------|
+| `model_em$imputed` | The completed (imputed) data matrix |
+| `model_em$parameters` | Final parameter estimates (μ, Σ) |
+| `model_em$loglik_history` | Log-likelihood trace for convergence monitoring |
+
+Inspect Results. 
+```{r}
+model_em$imputed
+model_em$parameters$mu
+model_em$parameters$sigma
+```
+
+Plot the log-likelihood over iterations:  
+
+```{r}
+plot(model_em$loglik_history, type = "l",
+     main = "EM Algorithm Log-Likelihood Trace",
+     xlab = "Iteration", ylab = "Log-Likelihood")
 
 ```
 
-Step 2: Step 2: Run the EM Algorithm. 
-```{r}
-model <- run_em_algorithm(model_em, tolerance = 1e-4)
-```
-  
-You now have:
-	•	Imputed data in model$imputed. 
-	•	Final estimates in model$parameters. 
-	•	Log-likelihood trace in model$loglik_history. 
+# Using the Monte Carlo EM (MCEM)
 
-Step 3:Inspect Results. 
-```{r}
-# Check the imputed matrix
-model$imputed
-model$parameters$mu
-model$parameters$sigma
-model$loglik_history
-# View convergence
-plot(model$loglik_history, type = "l", main = "Log-Likelihood", ylab = "LogLik")
+When analytical expectations are not available or the data distribution is complex,
+the Monte Carlo EM can be used to approximate the E-step through random sampling.  
 
-```
-  
-  
-Monte Carlo EM (MCEM).
-We can also perform imputation using the Monte Carlo EM variant:
-
-```{r}
+```{r,results='hide'}
 model_mc <- em_model(data, distribution = "nvnorm", method = "MCEM")
 result_mc <- run_em_algorithm(model_mc, m = 50, burn = 50, thin = 1, tau = 0.1)
+
 ```
-  
-Inspect result. 
+
+View Monte Carlo Diagnostics. 
 ```{r}
 result_mc$imputed
-result_mc$mc_diagnostics
+head(result_mc$mc_diagnostics, 3)
 ```
+
+The MCEM diagnostics include acceptance rates and trace statistics for sampled expectations.  
+
+# Poisson Data
+
+Below is a demonstration for the use of em_model function on dataset under Poisson assumption distribution.  
+```{r,results='hide'}
+set.seed(42)
+data_pois <- matrix(rpois(12, lambda = 3), nrow = 4)
+data_pois[2, 3] <- NA  
+
+model_pois <- em_model(data_pois, distribution = "poisson", method = "EM")
+model_pois <- run_em_algorithm(model_pois, tolerance = 1e-4)
+```
+
+Inspect result. 
+```{r}
+model_pois$imputed
+model_pois$parameters$lambda
+
+```
+
+# Convergence and Diagnostics
+
+The EM and MCEM methods record:  
+- Log-likelihood values per iteration. 
+- Parameter history for diagnostics. 
+- Early stopping if tolerance is met before max_iter
+The convergence can be visualised using:  
+```{r}
+plot(model_pois$loglik_history, type = "l", col = "blue",
+     main = "Poisson EM Convergence", ylab = "Log-Likelihood", xlab = "Iteration")
+
+```
+
+      
+# Reference
+
+Dempster, A. P., Laird, N. M., & Rubin, D. B. (1977). Maximum Likelihood from Incomplete Data via the EM Algorithm. Journal of the Royal Statistical Society: Series B (Methodological), 39(1), 1–22.  
+Wei, G. C. G., & Tanner, M. A. (1990). A Monte Carlo Implementation of the EM Algorithm and the Poor Man’s Data Augmentation Algorithms. Journal of the American Statistical Association, 85(411), 699–704.  
+

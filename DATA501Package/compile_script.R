@@ -106,6 +106,7 @@ usethis::use_test("e_step_nvnorm_mcem")
 usethis::use_test("m_step_nvnorm")
 usethis::use_test("log_likelihood_nvnorm")
 usethis::use_test("run_em_algorithm")
+usethis::use_test("log_likelihood_poisson")
 devtools::test()
 # --- generate vignette
 usethis::use_vignette("Introduction to the EM Algorithm")
@@ -152,5 +153,7 @@ result_mcem <- run_em_algorithm(model_mcem, tolerance = 1e-3, m = 100)
 head(model_mcem$data,5)
 head(result_em$imputed,5)
 head(result_mcem$imputed,5)
-
-
+data <- matrix(c(0, 0, 0, 0), nrow = 2)
+lambda <- c(1, 1)
+result <- log_likelihood_poisson(data, list(lambda = lambda))
+print(result)

@@ -81,13 +81,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // log_likelihood_poisson
-double log_likelihood_poisson(const arma::mat& data, const arma::vec& lambda);
+double log_likelihood_poisson(Rcpp::NumericMatrix data, Rcpp::NumericVector lambda);
 RcppExport SEXP _DATA501Package_log_likelihood_poisson(SEXP dataSEXP, SEXP lambdaSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const arma::mat& >::type data(dataSEXP);
-    Rcpp::traits::input_parameter< const arma::vec& >::type lambda(lambdaSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type lambda(lambdaSEXP);
     rcpp_result_gen = Rcpp::wrap(log_likelihood_poisson(data, lambda));
     return rcpp_result_gen;
 END_RCPP
