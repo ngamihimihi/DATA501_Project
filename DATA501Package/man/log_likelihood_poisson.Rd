@@ -13,38 +13,27 @@ in C++ using only observed entries per row.}
 
 \item{params}{A list containing:
 \describe{
-\item{lambda}{A numeric vector of average rate of events}
+\item{lambda}{A numeric vector of average rate of events.}
 }}
 }
 \value{
 A numeric scalar: the total log-likelihood across all rows.
-
-A numeric scalar: the total log-likelihood across all rows.
 }
 \description{
 Computes the observed-data log-likelihood under a Poisson model,
-given the current parameter estimates (lambda).
+given the current parameter estimates (\eqn{\lambda}).
 }
 \details{
-This function delegates to a C++ routine (\code{_DATA501Package_log_likelihood_poisson}).
-
-This function delegates to a C++ routine (\code{_DATA501Package_log_likelihood_poisson}).
+This function delegates computation to the underlying C++ routine
+\code{_DATA501Package_log_likelihood_poisson}, implemented via the Rcpp interface.
 }
 \examples{
 data <- matrix(c(1, NA, 3, 4), ncol = 2)
 params <- list(lambda = c(2, 3))
 log_likelihood_poisson(data, params)
-Log-Likelihood for Poisson Model
 
-Computes the observed-data log-likelihood under a Poisson model,
-given the current parameter estimates (lambda).
-
-data <- matrix(c(1, NA, 3, 4), ncol = 2)
-params <- list(lambda = c(2, 3))
-log_likelihood_poisson(data, params)
 }
 \seealso{
-\code{\link{em_engine}}, \code{\link{initialize_parameters_poisson}}}
-
-\code{\link{em_engine}}, \code{\link{initialize_parameters_poisson}}}
+\code{\link{em_engine}},
+\code{\link{initialize_parameters_poisson}}
 }

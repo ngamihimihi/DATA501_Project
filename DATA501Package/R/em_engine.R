@@ -89,7 +89,7 @@ em_engine <- function(model, method = "EM", tolerance = 1e-5, max_iter = 100,
     }
 
     # M-step
-    print("running get to over Estep")
+    #DEBUG: print("running get to over Estep")
     m_step_fn <- get(paste0("m_step_", dist))
     params <- m_step_fn(imputed_data)
 
@@ -105,7 +105,7 @@ em_engine <- function(model, method = "EM", tolerance = 1e-5, max_iter = 100,
       }
     }
     # Log-likelihood after parameter update
-    print("running get to over Mstep")
+    #DEBUG:print("running get to over Mstep")
     loglik <- loglik_fn(imputed_data, params)
     loglik_history <- c(loglik_history, loglik)
     print(loglik)

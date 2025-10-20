@@ -7,12 +7,12 @@
 initialize_parameters_nvnorm(data)
 }
 \arguments{
-\item{data}{A numeric matrix with missing values (NAs).}
+\item{data}{A numeric matrix with missing values (\code{NA}s).}
 }
 \value{
 A list with two elements:
 \describe{
-\item{mu}{A numeric vector of column means (ignoring NAs).}
+\item{mu}{A numeric vector of column means (ignoring \code{NA}s).}
 \item{sigma}{A numeric covariance matrix, adjusted to be symmetric and positive definite.}
 }
 }
@@ -22,20 +22,23 @@ distribution, handling missing data via pairwise-complete covariance and
 applying jitter if needed to ensure positive definiteness.
 }
 \details{
-The function computes column means using \code{colMeans(..., na.rm = TRUE)}
-and uses \code{cov(..., use = "pairwise.complete.obs")} to estimate the covariance matrix.
-It then ensures that the covariance matrix is symmetric, and applies a small jitter to
-the diagonal if any eigenvalues are close to zero or negative, to ensure positive definiteness.
+Column means are computed using \code{colMeans(..., na.rm = TRUE)}, and
+covariance is estimated via \code{cov(..., use = "pairwise.complete.obs")}.
+The resulting matrix is symmetrized and a small jitter is applied to the
+diagonal if any eigenvalues are close to zero or negative, ensuring positive
+definiteness.
 
-A warning message is shown if jittering is applied. If the matrix remains not positive definite
-after jittering, the function stops with an error.
+A message is printed when jittering is applied. If the matrix remains not
+positive definite after jittering, the function throws an error.
 }
 \examples{
 data <- matrix(c(1, 2, NA, 4, 5, 6, 7, NA, 9), ncol = 3)
 params <- initialize_parameters_nvnorm(data)
 params$mu
 params$sigma
+
 }
 \seealso{
-\code{\link{run_em_algorithm}}, \code{\link{em_model}}
+\code{\link{run_em_algorithm}},
+\code{\link{em_model}}
 }
