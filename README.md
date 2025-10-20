@@ -7,10 +7,14 @@ The package is designed for data scientists, statisticians, and researchers work
 ### Install from GitHub
 #install.packages("remotes")
 #if not already installed
-remotes::install_github("ngamihimihi/DATA501_Project", 
-                        subdir = "DATA501Package",
-                        build_vignettes = TRUE, 
-                        INSTALL_opts = c("--install-tests"))
+```r
+remotes::install_github(
+  "ngamihimihi/DATA501_Project",
+  subdir = "DATA501Package",
+  build_vignettes = TRUE,
+  INSTALL_opts = c("--install-tests")
+)
+```
 
 ### Instruction for testing
 Detail of the test plan can be found: [here](https://github.com/ngamihimihi/DATA501_Project/blob/main/DATA501Package/doc/Test_plan.pdf)
@@ -19,6 +23,7 @@ Detail of the test plan can be found: [here](https://github.com/ngamihimihi/DATA
 Test data: kc_house_data.csv
 Dependency: dplyr, data needs to be converted to matrix before passing on to run_em_algorithm
 Code to import and test:
+```{r}
 data<-read.csv("kc_house_data.csv",skip=1,header = FALSE)
 head(data,5)
 data<-data[,-c(1,2)]
@@ -26,10 +31,11 @@ data <- as.matrix(data)
 model <- em_model(data,distribution = "nvnorm",method = "EM")
 model_em <- em_model(data,distribution = "nvnorm",method = "EM")
 model_mcem<- em_model(data,distribution = "nvnorm",method = "EM")
-
+```
 #### View result
 
 #Standard EM
+```{r}
 model_em$data
 model_em$method
 model_em$early_stop
@@ -47,3 +53,4 @@ model_mcem$distribution
 model_mcem$parameters
 model_mcem$parameter_history
 head(model _mcem$imputed,5)
+```
