@@ -2,7 +2,6 @@
 #'
 #' Performs the E-step of the EM algorithm by imputing missing entries in a
 #' numeric matrix using conditional expectations under the multivariate normal model.
-#'In this draft package: only multivariate normal distribution is ready for testing (method = 'nvnorm')
 #' @param data A numeric matrix with missing values (NAs).
 #' @param mu A numeric vector representing the mean of the distribution.
 #' @param Sigma A numeric covariance matrix (must be positive definite).

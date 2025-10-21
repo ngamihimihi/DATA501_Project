@@ -1,12 +1,10 @@
 #' Core EM/MCEM Engine for an em_model Object
 #'
-#' In this draft package: only multivariate normal distribution is ready for testing (method = 'nvnorm')
 #'
 #' Runs the Expectation-Maximization (EM) or Monte Carlo EM (MCEM) algorithm on
 #' an \code{em_model} object assuming a multivariate normal distribution. The algorithm
 #' iteratively imputes missing values (E-step) and updates parameters (M-step) until convergence
 #' or a maximum number of iterations is reached.
-#' In this draft package: only multivariate normal distribution is ready for testing (method = 'nvnorm')
 #'
 #' @param model An object of class \code{em_model}.
 #' @param method Character string: either \code{"EM"} or \code{"MCEM"}.
@@ -37,7 +35,6 @@
 #'   \code{\link{e_step_nvnorm}}, \code{\link{e_step_nvnorm_mc}},
 #'   \code{\link{m_step_nvnorm}}, \code{\link{log_likelihood_mvnorm}}
 #'
-#' @keywords internal
 #' @export
 em_engine <- function(model, method = "EM", tolerance = 1e-5, max_iter = 100,
                       m = NULL, burn = NULL, thin = NULL, tau = NULL) {
@@ -54,11 +51,6 @@ em_engine <- function(model, method = "EM", tolerance = 1e-5, max_iter = 100,
   e_step_fn   <- get(paste0("e_step_", dist, "_" ,tolower(method)))
   m_step_fn   <- get(paste0("m_step_", dist))
   loglik_fn   <- get(paste0("log_likelihood_", dist))
-
-  #for (fn in c("e_step_", "m_step_", "log_likelihood_")) {
-  #  full_fn <- paste0(fn, dist,)
-  #  if (!exists(full_fn)) stop("Missing function: ", full_fn)
-  #}
 
   loglik_history    <- numeric()
   parameter_history <- list()

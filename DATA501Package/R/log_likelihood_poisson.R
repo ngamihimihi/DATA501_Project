@@ -3,9 +3,7 @@
 #' Computes the observed-data log-likelihood under a Poisson model,
 #' given the current parameter estimates (\eqn{\lambda}).
 #'
-#' @param data A numeric matrix with missing values (NAs). Missing values are assumed
-#'   to follow a Missing At Random (MAR) mechanism. The computation is handled
-#'   in C++ using only observed entries per row.
+#' @param data A numeric matrix with missing values (NAs).
 #' @param params A list containing:
 #'   \describe{
 #'     \item{lambda}{A numeric vector of average rate of events.}

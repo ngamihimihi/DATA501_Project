@@ -52,7 +52,7 @@ print(data.poisson)
 params<-list(mu=mu,sigma=sigma)
 
 # Test EM model
-model <- em_model(data.poisson,distribution = "poisson",method = "EM")
+model <- em_model(data,distribution = "nvnorm",method = "EM")
 result <- run_em_algorithm(model, tolerance = 1e-5, m = 50)
 params <- initialize_parameters_poisson(model$data)
 plot(result, what = "loglik")       # log-likelihood progression

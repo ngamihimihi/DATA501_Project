@@ -14,10 +14,10 @@
 #'
 #' @details This function calls a C++ routine (\code{_DATA501Package_m_step_nvnorm})
 #' to compute the MLEs for the multivariate normal parameters \eqn{(\mu, \Sigma)}.
-#' It is designed to work with both outputs of \code{\link{e_step_nvnorm}} or
+#' It is designed to work with both outputs of \code{\link{e_step_nvnorm_em}} or
 #' \code{\link{e_step_nvnorm_mc}} during the EM algorithm.
 #'
-#' @seealso \code{\link{e_step_nvnorm}}, \code{\link{em_engine}}, \code{\link{log_likelihood_nvnorm}}
+#' @seealso \code{\link{e_step_nvnorm_em}}, \code{\link{e_step_nvnorm_mcem}}, \code{\link{em_engine}}, \code{\link{log_likelihood_nvnorm}}
 #'
 #' @export
 #'

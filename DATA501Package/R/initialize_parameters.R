@@ -7,14 +7,13 @@
 #' @param data A numeric matrix with possible missing values (NAs). The structure and
 #'   assumptions about the data depend on the target distribution.
 #' @param dist A character string indicating the assumed distribution of the data.
-#'   Supported values include: \code{"mvnorm"}, \code{"poisson"}, \code{"mixture"}, etc.
+#'   Supported values include: \code{"mvnorm"}, \code{"poisson"}, etc.
 #'
 #' @return A named list of initialized parameters appropriate for the given distribution.
 #'   For example:
 #'   \describe{
 #'     \item{\code{"mvnorm"}}{Returns \code{list(mu = ..., sigma = ...)}}
 #'     \item{\code{"poisson"}}{Returns \code{list(lambda = ...)}}
-#'     \item{\code{"mixture"}}{Returns \code{list(mu = list(...), pi = ...)}}
 #'   }
 #'
 #' @details This is a dynamic wrapper that looks for a function named
@@ -22,8 +21,7 @@
 #' The corresponding function must exist; otherwise, an error is thrown.
 #'
 #' @seealso \code{\link{initialize_parameters_mvnorm}},
-#'   \code{\link{initialize_parameters_poisson}},
-#'   \code{\link{initialize_parameters_mixture}}
+#'   \code{\link{initialize_parameters_poisson}}
 #'
 #' @export
 #'

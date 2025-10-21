@@ -13,9 +13,9 @@
 #'
 #' @details This function calls a C++ routine (\code{_DATA501Package_m_step_poisson})
 #' to compute the MLEs for the poisson parameters \eqn{(\lambda)}.
-#' It is designed to work with both outputs of \code{\link{e_step_poisson}}.
+#' It is designed to work with both outputs of \code{\link{e_step_poisson_em}}.
 #'
-#' @seealso \code{\link{e_step_poisson}}, \code{\link{em_engine}}, \code{\link{log_likelihood_poisson}}
+#' @seealso \code{\link{e_step_poisson_em}}, \code{\link{em_engine}}, \code{\link{log_likelihood_poisson}}
 #'
 #' @export
 #'

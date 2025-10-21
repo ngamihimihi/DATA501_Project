@@ -1,6 +1,5 @@
 #' Constructor for em_model Object
 #'
-#' In this draft package: only multivariate normal distribution is ready for testing (method = 'nvnorm')
 #' Initializes an EM model structure with input data and placeholders
 #' for algorithm output. Used as the primary object to pass through
 #' the EM or MCEM pipeline.
@@ -45,6 +44,10 @@ em_model <- function(data, method = "EM", distribution="nvnorm",early_stop = lis
   supported_distribution <- c("nvnorm", "poisson")
   if (!distribution %in% supported_distribution) {
     stop("Only the following distributions are supported currently: ", paste(supported_distribution, collapse = ", "))
+  }
+  #### --- MonteCarlo EM only allows nvnorm ---
+  if ((tolower(distribution) == "poisson") &(tolower(method) == "MCEM")) {
+    stop(" Only nvnorm is supported with MCEM")
   }
 
   #### --- OBJECT STRUCTURE

@@ -16,7 +16,7 @@
 #' @return An updated \code{em_model} object with filled-in fields such as \code{loglik_history},
 #'   \code{parameters}, \code{imputed}, and \code{early_stop}.
 #'
-#' @seealso \code{\link{em_engine}}, \code{\link{em_model}}, \code{\link{e_step_nvnorm}}
+#' @seealso \code{\link{em_engine}}, \code{\link{em_model_class}}
 #'
 #' @export
 #'
